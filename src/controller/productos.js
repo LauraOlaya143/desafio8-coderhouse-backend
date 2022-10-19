@@ -70,10 +70,12 @@ class ProductosAPI {
 
         const {title, price} = newProduct
 
+        const intId = Math.floor(id)
+
         const productoActualizado = {
             title,
             price,
-            id: id,
+            id: intId,
         }
 
         arrayProductos.splice(indice, 1, productoActualizado);
@@ -93,7 +95,7 @@ class ProductosAPI {
 
         const newData = JSON.stringify(arrayProductos, null, "\t")
         await fs.writeFile(filePath, newData)
-        
+
         return `eliminando el producto con el id: ${id}`
     }
 }

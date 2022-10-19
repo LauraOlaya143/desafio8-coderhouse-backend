@@ -18,5 +18,15 @@
 		"title": "Draculaura G3",
 		"price": 25,
 		"id": 4
+	},
+	{
+		"title": "Frankie stein G3",
+		"price": 25,
+		"id": 5
+	},
+	{
+		"title": "Frankie stein G1",
+		"price": 36,
+		"id": 6
 	}
 ]
