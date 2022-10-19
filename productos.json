@@ -1,0 +1,22 @@
+[
+	{
+		"title": "Monster High Doll",
+		"price": 25,
+		"id": 1
+	},
+	{
+		"title": "Ever After High Doll",
+		"price": 40,
+		"id": 2
+	},
+	{
+		"title": "Rainbow High Doll",
+		"price": 35,
+		"id": 3
+	},
+	{
+		"title": "Draculaura G3",
+		"price": 25,
+		"id": 4
+	}
+]

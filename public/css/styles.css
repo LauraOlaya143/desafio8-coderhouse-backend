@@ -1,0 +1,102 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(101, 38, 55);
+    background: rgb(255,227,218);
+    background: linear-gradient(0deg, rgba(255,227,218,1) 0%, rgba(255,250,225,1) 100%);
+    background-image: url(../imgs/fondo.png);
+    background-attachment: fixed;
+    background-size: cover;
+    
+}
+  
+::selection {
+    background-color: #ff86a0;
+    color: #ffe7f2; 
+}
+
+
+.App {
+    text-align: center;
+}
+
+.button_detalle {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    color: rgb(255, 235, 235);
+    border:#862451 2px solid;
+    background-color: #862451;
+    border-radius: 5px;
+    padding: 6px;
+    width: 60%;
+    margin-top: 5px;
+    cursor: pointer;
+    transition: all 0.5s;
+  }
+  
+.button_detalle:hover {
+    background-color: #ff75ba;
+    border: #ff75ba 2px solid;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 70%;
+    padding-bottom: 20px;
+}
+
+.tittle_formulary {
+    font-family: 'Gentium Plus', serif;
+    font-weight: bold;
+    text-align: center;
+    align-items: center;
+    font-size: 4em;
+    line-height: 1.2em;
+    width: 100%;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    margin: 0 auto;
+}
+
+.subTittle_formulary {
+    font-family: 'Gentium Plus', serif;
+    font-weight: bold;
+    font-size: 2em;
+    line-height: 1.2em;
+    width: 100%;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.subTittle_formulary:hover {
+    color: #ff75ba
+}
+
+.formulario_input {
+    height: 30px;
+    border: none;
+    color: rgb(101, 38, 55);
+    border-bottom: rgb(101, 38, 55) solid 2px;
+    border-radius: 5px;
+    outline: none;
+    transition: all 0.5s;
+}
+
+.formulario_input:focus {
+    border-bottom: 2px solid #ff75ba;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+    align-items: center;
+    margin-top: 100px;
+}
+
