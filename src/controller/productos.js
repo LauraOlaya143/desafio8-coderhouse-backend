@@ -39,7 +39,7 @@ class ProductosAPI {
         const productos = await fs.readFile(filePath, 'utf8');
         const arrayProductos = JSON.parse(productos)
 
-        const {title, price} = newProduct
+        const {title, price, thumbnail} = newProduct
 
         let newId = 1
 
@@ -52,6 +52,7 @@ class ProductosAPI {
         const product = {
             title,
             price,
+            thumbnail,
             id: intId
         }
 
@@ -68,13 +69,14 @@ class ProductosAPI {
         const arrayProductos = JSON.parse(productos)
         const indice = arrayProductos.findIndex(prod => prod.id == id);
 
-        const {title, price} = newProduct
+        const {title, price, thumbnail} = newProduct
 
         const intId = Math.floor(id)
 
         const productoActualizado = {
             title,
             price,
+            thumbnail,
             id: intId,
         }
 

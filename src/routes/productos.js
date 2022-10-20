@@ -54,13 +54,13 @@ rutaProductos.post("/", async (req, res) => {
 
     console.log(data);
 
-    const {title, price} = req.body
+    const {title, price, thumbnail} = req.body
 
     // se verifica que el precio sea un numero y que sean los campos correctos
 
     const priceNumber = Math.floor(price)
 
-    if(!title || !price ){
+    if(!title || !price || !thumbnail){
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -71,6 +71,7 @@ rutaProductos.post("/", async (req, res) => {
     let nuevoUsuario = {
         title,
         price: priceNumber,
+        thumbnail
     }
 
     const dataController = await ProductosController.saveNewProduct(nuevoUsuario)
@@ -83,10 +84,10 @@ rutaProductos.post("/", async (req, res) => {
 
 rutaProductos.put("/:id", async (req, res) => {
     const id = req.params.id;
-    const {title, price} = req.body
+    const {title, price, thumbnail} = req.body
     const priceNumber = Math.floor(price)
 
-    if(!title || !price){
+    if(!title || !price || !thumbnail){
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -95,6 +96,7 @@ rutaProductos.put("/:id", async (req, res) => {
     const productoActualizado = {
         title,
         price: priceNumber,
+        thumbnail
     }
 
     const DataActualizada = await ProductosController.updateById(id, productoActualizado)

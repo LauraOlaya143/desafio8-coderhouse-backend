@@ -2,16 +2,19 @@
 	{
 		"title": "Monster High Doll",
 		"price": 25,
+		"thumbnail": "https://i5.walmartimages.com/asr/61f6a96e-def1-46a7-b97d-61b86940fa57.520868774beb1b2f05cf1cf9c426547e.jpeg",
 		"id": 1
 	},
 	{
 		"title": "Ever After High Doll",
 		"price": 40,
+		"thumbnail": "https://ae01.alicdn.com/kf/HTB1kRsfKpXXXXXYXVXXq6xXFXXXu/Genuine-Original-Ever-After-High-Madeline-Hatter-Dolls-Toys-Christmas-New-Year-Birthday-Gifts-Brand-Good.jpg_Q90.jpg_.webp",
 		"id": 2
 	},
 	{
 		"title": "Rainbow High Doll",
 		"price": 35,
+		"thumbnail": "https://image.smythstoys.com/original/desktop/200046.jpg",
 		"id": 3
 	}
 ]
