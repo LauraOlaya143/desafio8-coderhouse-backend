@@ -32,6 +32,7 @@ body {
     padding: 6px;
     width: 60%;
     margin-top: 5px;
+    margin-bottom: 20px;
     cursor: pointer;
     transition: all 0.5s;
   }
@@ -97,6 +98,35 @@ body {
     text-align: center;
     margin: 0 auto;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 20px;
 }
 
+.contenedor_img {
+    margin: 0 auto;
+    width: 45%;
+    height: 30%;
+}
+
+.img {
+    width: 100%;
+    height: 300px;
+}
+
+.tabla {
+    color:rgb(101, 38, 55);
+    background: rgba(255, 215, 234, 0.521);
+    align-items: center;
+    text-align: center;
+    border: 1px solid rgba(204, 204, 204, 0);
+    border-radius: 5px;
+}
+
+.tablaTitulos {
+    background: rgb(101, 38, 55);
+    color: rgb(255, 215, 234);
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-accent-bg: var(--bs-table-striped-bg);
+    color: rgb(101, 38, 55);
+}
