@@ -130,3 +130,33 @@ body {
     --bs-table-accent-bg: var(--bs-table-striped-bg);
     color: rgb(101, 38, 55);
 }
+
+.mensajeContenedor {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 85%;
+}
+
+.tittleMensaje {
+    margin-top: 20px;
+    margin-right: 20px;
+    color: #ff43a1;
+    height: 50px;
+    padding-top: 10px;
+    border-radius: 20%;
+}
+
+.horaMensaje {
+    text-align: left;
+    color:#ca719a;
+}
+
+.mensajeTexto {
+    text-align: justify;
+}
+
+.texto {
+    max-width: 300px;
+}

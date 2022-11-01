@@ -44,7 +44,7 @@ class ProductosAPI {
         let newId = 1
 
         if(arrayProductos.length) {
-           newId = arrayProductos[arrayProductos.length - 1].id + 1
+            newId = arrayProductos[arrayProductos.length - 1].id + 1
         }
 
         const intId = Math.floor(newId)

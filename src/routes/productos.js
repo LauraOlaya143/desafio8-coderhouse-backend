@@ -10,34 +10,22 @@ const rutaProductos = Router();
 rutaProductos.get("/formulario", async (req, res) => {
     /*render con HBS:*/
     res.render("formularioHbs") 
+})
 
-    /*render con PUG 
-    res.render("formularioPug")*/
-
-    /*render con EJS 
-    res.render("formularioEjs")*/
-    
-    /*res.json({
-        msg: data
-    })*/
+rutaProductos.get("/productos", async (req, res) => {
+    const data = await ProductosController.getAll()
+    const cantidadObjetos = data.length
+    const validarArray = cantidadObjetos > 0 ? true : false
+    res.render("showProducts", { productos: data, cantidad: validarArray})
 })
 
 rutaProductos.get("/", async (req, res) => {
     const data = await ProductosController.getAll()
     const cantidadObjetos = data.length
     const validarArray = cantidadObjetos > 0 ? true : false
+    res.render("main", { productos: data, cantidad: validarArray})
     /* Render con Hbs: */
-    res.render("showProducts", { productos: data, cantidad: validarArray})
-
-    /* Render con Pug: 
-    res.render("productsPug", { productos: data, cantidad: validarArray }) */
-
-    /*render con EJS
-    res.render("productsEjs", { productos: data, cantidad: validarArray }) */
-
-    /*res.json({
-        msg: data
-    })*/
+    //res.render("showProducts", { productos: data, cantidad: validarArray})
 })
 
 rutaProductos.get("/:id", async (req, res) => {
@@ -101,8 +89,6 @@ rutaProductos.post("/", async (req, res) => {
     }
 
     const dataController = await ProductosController.saveNewProduct(nuevoUsuario)
-
-    res.redirect('/api/productos/formulario')
 })
 
 rutaProductos.put("/:id", async (req, res) => {
