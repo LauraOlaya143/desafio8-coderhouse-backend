@@ -33,6 +33,10 @@ app.engine('hbs', engine({
 }
 ));
 
+app.get("/", (req, res) => {
+    res.render("links")
+})
+
 app.use((err, req, res, next) => {
     const status = err.status || 500;
         const message = err.message || "internal server error";
@@ -44,19 +48,6 @@ app.use((err, req, res, next) => {
                 message
             }
         )
-})
-
-app.get("/formulario", async (req, res) => {
-    const data = await ProductosController.getAll()
-    const cantidadObjetos = data.length
-    const validarArray = cantidadObjetos > 0 ? true : false
-
-    const wsServer = getWsServer();
-    wsServer.on("connection", (socket) => {
-        wsServer.emit('mensajeServer', {data: data});
-    })
-
-    res.render("socket", { productos: data, cantidad: validarArray})
 })
 
 app.use("/api", rutaPrincipal)
