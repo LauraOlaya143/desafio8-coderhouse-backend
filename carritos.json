@@ -1,0 +1,26 @@
+[
+	{
+		"id": 1,
+		"products": [
+			[
+				{
+					"title": "Monster High Doll",
+					"price": 25,
+					"thumbnail": "https://i.pinimg.com/550x/4d/61/af/4d61afabd1395a73f457ac6e62a4a46d.jpg",
+					"id": 1
+				}
+			]
+		]
+	},
+	{
+		"id": 2,
+		"products": [
+			{
+				"title": "Ever After High Doll",
+				"price": 40,
+				"thumbnail": "https://ae01.alicdn.com/kf/HTB1kRsfKpXXXXXYXVXXq6xXFXXXu/Genuine-Original-Ever-After-High-Madeline-Hatter-Dolls-Toys-Christmas-New-Year-Birthday-Gifts-Brand-Good.jpg_Q90.jpg_.webp",
+				"id": 2
+			}
+		]
+	}
+]

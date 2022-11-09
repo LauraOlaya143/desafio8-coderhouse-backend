@@ -1,6 +1,7 @@
 const { Router } = require('express')
 const fs = require('fs/promises');
 const path = require('path');
+const admin = require("../middlewares/auth")
 const { ProductosController } = require("../controller/productos")
 
 const filePath = path.resolve(__dirname, '../../productos.json');
@@ -28,9 +29,9 @@ rutaProductos.get("/", async (req, res) => {
     //res.render("showProducts", { productos: data, cantidad: validarArray})
 })
 
-rutaProductos.get("/:id", async (req, res) => {
+rutaProductos.get("/product", async (req, res) => {
+    const { id } = req.query;
     try{
-        const id = req.params.id;
         const product = await ProductosController.getById(id);
 
         res.json({
@@ -51,7 +52,7 @@ rutaProductos.get("/:id", async (req, res) => {
     }
 })
 
-rutaProductos.post("/", async (req, res) => {
+rutaProductos.post("/", admin, async (req, res) => {
     //se guarda el nuevo ID para el producto
     const productos = await fs.readFile(filePath, 'utf8');
     const arrayProductos = JSON.parse(productos)
@@ -91,7 +92,7 @@ rutaProductos.post("/", async (req, res) => {
     const dataController = await ProductosController.saveNewProduct(nuevoUsuario)
 })
 
-rutaProductos.put("/:id", async (req, res) => {
+rutaProductos.put("/:id", admin, async (req, res) => {
     const id = req.params.id;
     const {title, price, thumbnail} = req.body
     const priceNumber = Math.floor(price)
@@ -118,7 +119,7 @@ rutaProductos.put("/:id", async (req, res) => {
     })
 })
 
-rutaProductos.delete("/:id", async (req, res) => {
+rutaProductos.delete("/:id", admin, async (req, res) => {
     const id = req.params.id;
     const message = await ProductosController.deleteById(id)
 
