@@ -33,7 +33,8 @@ rutaCarrito.post("/:idCarrito/productos/:id", async (req, res) =>{
     const id = req.params.id;
     const idCarrito = req.params.idCarrito
     const product = await ProductosController.getById(id);
-    const dataController = await carritoController.saveNewProduct(id, product, idCarrito)
+    const dataController = await carritoController.saveNewProduct(product, idCarrito)
+    const eliminarStock = await ProductosController.eliminarStock(id)
     res.json({
         data: `se guardo el producto con exito en el carrito con el id ${idCarrito}`,
         msg: dataController

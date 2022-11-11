@@ -58,19 +58,47 @@ class CarritoAPI {
             return product
     }
 
-    async saveNewProduct(id, producto, idCarrito) {
+    async saveNewProduct(producto, idCarrito) {
         const carrito = await fs.readFile(filePath, 'utf8');
         const arrayCarrito = JSON.parse(carrito);
-        const existe = await this.exists(id)
+        const existe = await this.exists(idCarrito)
         const indiceCarrito = arrayCarrito.findIndex(prod => prod.id == idCarrito)
+        let cantidad = 1;
+
+        const {title, price, thumbnail, id, timestamp, descripcion, codigo} = producto
 
         if(!existe) throw createError(404, 'carrito no encontrado')
 
         const carritoSeleccionado = arrayCarrito[indiceCarrito]
 
         const productosDelCarrito = carritoSeleccionado.products
+        const indiceProducto = productosDelCarrito.findIndex(prod => prod.id == id);
 
-        productosDelCarrito.push(producto);
+        let productoYaExiste = productosDelCarrito[indiceProducto]
+        
+        let newCantidad = productoYaExiste.cantidad
+        cantidad = cantidad + newCantidad;
+        
+        const boolean = indiceProducto >= 0
+
+        if(!boolean){
+
+        const newProduct = {
+            title,
+            price, 
+            thumbnail,
+            id,
+            timestamp,
+            descripcion,
+            codigo,
+            cantidad
+        }
+
+        productosDelCarrito.push(newProduct);
+        } else {
+            productoYaExiste.cantidad = cantidad
+            productosDelCarrito.splice(indiceProducto, 1, productoYaExiste)
+        }
 
         const carritoActualizado = {
             id: carritoSeleccionado.id,

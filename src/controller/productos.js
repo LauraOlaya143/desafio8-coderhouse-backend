@@ -100,6 +100,40 @@ class ProductosAPI {
 
         return `eliminando el producto con el id: ${id}`
     }
+
+    async eliminarStock(idProducto){
+        const productos = await fs.readFile(filePath, 'utf8');
+        const arrayProductos = JSON.parse(productos);
+        const existe = await this.exists(idProducto)
+
+        if(!existe) throw createError(404, 'producto no encontrado')
+
+        const indice = arrayProductos.findIndex(prod => prod.id == idProducto);
+
+        const product = arrayProductos[indice]
+
+        const {title, price, thumbnail, id, timestamp, descripcion, codigo, stock} = product;
+
+        const newStock = stock - 1;
+
+        const newProduct = {
+            title,
+            price,
+            thumbnail,
+            id,
+            timestamp,
+            descripcion,
+            codigo,
+            stock : newStock
+        }
+
+        arrayProductos.splice(indice, 1, newProduct);
+
+        const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
+        await fs.writeFile(filePath, DataActualizada)
+
+        return "stock eliminado"
+    }
 }
 
 const instanciaProductosApi = new ProductosAPI(filePath);
