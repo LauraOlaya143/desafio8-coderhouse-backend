@@ -4,7 +4,7 @@ const { ProductosController } = require("../controller/productos")
 
 const rutaCarrito = Router();
 
-rutaCarrito.get("/:id", async (req, res) => {
+rutaCarrito.get("/:id/productos", async (req, res) => {
     const id = req.params.id;
     try{
         const data = await carritoController.getById(id)
