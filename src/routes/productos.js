@@ -8,29 +8,15 @@ const filePath = path.resolve(__dirname, '../../productos.json');
 
 const rutaProductos = Router();
 
-rutaProductos.get("/formulario", async (req, res) => {
-    /*render con HBS:*/
-    res.render("formularioHbs") 
-})
-
-rutaProductos.get("/productos", async (req, res) => {
-    const data = await ProductosController.getAll()
-    const cantidadObjetos = data.length
-    const validarArray = cantidadObjetos > 0 ? true : false
-    res.render("showProducts", { productos: data, cantidad: validarArray})
-})
-
 rutaProductos.get("/", async (req, res) => {
     const data = await ProductosController.getAll()
-    const cantidadObjetos = data.length
-    const validarArray = cantidadObjetos > 0 ? true : false
-    res.render("main", { productos: data, cantidad: validarArray})
-    /* Render con Hbs: */
-    //res.render("showProducts", { productos: data, cantidad: validarArray})
+    res.json({
+        data
+    })
 })
 
-rutaProductos.get("/product", async (req, res) => {
-    const { id } = req.query;
+rutaProductos.get("/:id", async (req, res) => {
+    const id = req.params.id;
     try{
         const product = await ProductosController.getById(id);
 
@@ -69,13 +55,16 @@ rutaProductos.post("/", admin, async (req, res) => {
 
     console.log(data);
 
-    const {title, price, thumbnail} = req.body
+    const {title, price, thumbnail, descripcion, stock} = req.body
 
     // se verifica que el precio sea un numero y que sean los campos correctos
 
     const priceNumber = Math.floor(price)
+    const stockNumber = Math.floor(stock)
+    const comprobarPrecio = isNaN(priceNumber)
+    const comprobarStock = isNaN(stockNumber)
 
-    if(!title || !price || !thumbnail){
+    if(!title || !price || !thumbnail || !descripcion || !stock || comprobarPrecio || comprobarStock){
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -86,18 +75,29 @@ rutaProductos.post("/", admin, async (req, res) => {
     let nuevoUsuario = {
         title,
         price: priceNumber,
-        thumbnail
+        thumbnail,
+        descripcion,
+        stock: stockNumber
     }
 
     const dataController = await ProductosController.saveNewProduct(nuevoUsuario)
+
+    res.json({
+        msg: `Se agrego el producto con el id: ${newId}`,
+        data: nuevoUsuario
+    })
 })
 
 rutaProductos.put("/:id", admin, async (req, res) => {
     const id = req.params.id;
-    const {title, price, thumbnail} = req.body
-    const priceNumber = Math.floor(price)
+    const {title, price, thumbnail, descripcion, stock} = req.body
 
-    if(!title || !price || !thumbnail){
+    const priceNumber = Math.floor(price)
+    const stockNumber = Math.floor(stock)
+    const comprobarPrecio = isNaN(priceNumber)
+    const comprobarStock = isNaN(stockNumber)
+
+    if(!title || !price || !thumbnail || !descripcion || !stock || comprobarPrecio || comprobarStock){
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -106,12 +106,12 @@ rutaProductos.put("/:id", admin, async (req, res) => {
     const productoActualizado = {
         title,
         price: priceNumber,
-        thumbnail
+        thumbnail,
+        descripcion,
+        stock: stockNumber
     }
 
     const DataActualizada = await ProductosController.updateById(id, productoActualizado)
-
-    console.log(id)
 
     res.json({
         msg: `actualizando el producto con el id: ${id}`,

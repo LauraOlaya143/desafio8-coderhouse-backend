@@ -76,9 +76,10 @@ class CarritoAPI {
 
         let productoYaExiste = productosDelCarrito[indiceProducto]
         
-        let newCantidad = productoYaExiste.cantidad
-        cantidad = cantidad + newCantidad;
-        
+        if(productoYaExiste){
+            let newCantidad = productoYaExiste.cantidad
+            cantidad = cantidad + newCantidad;
+        }
         const boolean = indiceProducto >= 0
 
         if(!boolean){

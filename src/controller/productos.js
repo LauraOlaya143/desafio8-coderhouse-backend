@@ -1,6 +1,8 @@
 var createError = require('http-errors')
 const fs = require('fs/promises');
 const path = require('path');
+const moment = require("moment");
+const { v4: uuidv4 } = require('uuid');
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -39,9 +41,11 @@ class ProductosAPI {
         const productos = await fs.readFile(filePath, 'utf8');
         const arrayProductos = JSON.parse(productos)
 
-        const {title, price, thumbnail} = newProduct
+        const {title, price, thumbnail, descripcion, stock} = newProduct
 
         let newId = 1
+        const time = moment().format("DD-MM-YYYY HH:MM:SS")
+        const newCodigo = uuidv4();
 
         if(arrayProductos.length) {
             newId = arrayProductos[arrayProductos.length - 1].id + 1
@@ -53,7 +57,11 @@ class ProductosAPI {
             title,
             price,
             thumbnail,
-            id: intId
+            id: intId,
+            timestamp : time,
+            descripcion,
+            codigo: newCodigo,
+            stock
         }
 
         arrayProductos.push(product);
@@ -68,8 +76,10 @@ class ProductosAPI {
         const productos = await fs.readFile(filePath, 'utf8');
         const arrayProductos = JSON.parse(productos)
         const indice = arrayProductos.findIndex(prod => prod.id == id);
+        const product = arrayProductos[indice]
 
-        const {title, price, thumbnail} = newProduct
+        const {title, price, thumbnail, descripcion, stock} = newProduct
+        const {timestamp, codigo} = product
 
         const intId = Math.floor(id)
 
@@ -78,6 +88,10 @@ class ProductosAPI {
             price,
             thumbnail,
             id: intId,
+            timestamp,
+            descripcion,
+            codigo,
+            stock
         }
 
         arrayProductos.splice(indice, 1, productoActualizado);

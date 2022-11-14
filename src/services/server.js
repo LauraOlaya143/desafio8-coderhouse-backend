@@ -6,7 +6,6 @@ const rutaPrincipal = require('../routes/index')
 const { engine } = require('express-handlebars');
 const path = require('path');
 const { ProductosController } = require("../controller/productos")
-const { getWsServer } = require('../services/socket')
 
 const viewsFolderPath = path.resolve(__dirname, '../../views');
 const layoutsFolderPath = `${viewsFolderPath}/layouts`
@@ -33,8 +32,22 @@ app.engine('hbs', engine({
 }
 ));
 
-app.get("/", (req, res) => {
-    res.render("links")
+app.get("/", async (req, res) => {
+    const data = await ProductosController.getAll()
+    const cantidadObjetos = data.length
+    const validarArray = cantidadObjetos > 0 ? true : false
+    res.render("main", { productos: data, cantidad: validarArray})
+})
+
+app.get("/productos", async (req, res) => {
+    const data = await ProductosController.getAll()
+    const cantidadObjetos = data.length
+    const validarArray = cantidadObjetos > 0 ? true : false
+    res.render("showProducts", { productos: data, cantidad: validarArray})
+})
+
+app.get("/formulario", (req, res) => {
+    res.render("formularioHbs")
 })
 
 app.use((err, req, res, next) => {
