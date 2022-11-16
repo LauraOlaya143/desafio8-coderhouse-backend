@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { carritoController } from "../controller/productos"
+import { carritoController } from "../controller/carrito"
 import { ProductosController } from "../controller/productos"
 
 const rutaCarrito = Router();

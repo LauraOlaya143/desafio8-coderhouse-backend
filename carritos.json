@@ -35,6 +35,16 @@
 				"descripcion": "Muñeca Monster High del año 2022",
 				"codigo": "WDy7tiGS",
 				"cantidad": 2
+			},
+			{
+				"title": "Rainbow High Doll",
+				"price": 35,
+				"thumbnail": "https://image.smythstoys.com/original/desktop/200046.jpg",
+				"id": 3,
+				"timestamp": "11-11-2022 11:11:14",
+				"descripcion": "Muñeca Rainbow High del año 2022",
+				"codigo": "n7NjmYqW",
+				"cantidad": 4
 			}
 		]
 	}

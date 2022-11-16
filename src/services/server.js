@@ -5,6 +5,8 @@ import rutaPrincipal from "../routes/index"
 import { engine } from 'express-handlebars'
 import path from "path"
 import { ProductosController } from "../controller/productos"
+import { messageController } from "../controller/mensajes"
+import morgan from "morgan";
 
 const viewsFolderPath = path.resolve(__dirname, '../../views');
 const layoutsFolderPath = `${viewsFolderPath}/layouts`
@@ -17,6 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(express.static("public"))
+
+app.use(morgan("dev"));
 
 /* Views creadas con hbs:*/
 
@@ -63,6 +67,13 @@ app.use((err, req, res, next) => {
 })
 
 app.use("/api", rutaPrincipal)
+
+app.get("/mensajes", async (req, res) => {
+    const controller = await messageController.crearBD()
+    res.json({
+        msg: "Tabla creada!"
+    })
+})
 
 const myServer = http.Server(app)
 

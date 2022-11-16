@@ -3,6 +3,7 @@ import fs from "fs/promises"
 import path from "path"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
+import { sql } from "./BDproductos"
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -11,35 +12,43 @@ class ProductosAPI {
         this.archivo = archivo;
     }
 
-    async exists(id) {
+    async crearBD(){
         const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos);
-        const indice = arrayProductos.findIndex(prod => prod.id == id);
+        const arrayProductos = JSON.parse(productos)
+        await sql.createTable();
+        await sql.insertProduct(arrayProductos)
+    }
+
+    async exists(id) {
+        /*const productos = await fs.readFile(filePath, 'utf8');
+        const arrayProductos = JSON.parse(productos); */
+        const productos = await sql.getAllProducts()
+        const indice = productos.findIndex(prod => prod.id == id);
 
         return indice >= 0;
     }
 
     async getAll() {
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
-        return arrayProductos
+        const productos = await sql.getAllProducts()
+        return productos
     }
 
     async getById(id) {
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos);
+        const productos = await sql.getAllProducts()
         const existe = await this.exists(id)
 
         if(!existe) throw createError(404, 'producto no encontrado')
 
-        const indice = arrayProductos.findIndex(prod => prod.id == id);
+        const indice = productos.findIndex(prod => prod.id == id);
 
-        return arrayProductos[indice]
+        return productos[indice]
     }
 
     async saveNewProduct(newProduct) {
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
+        //const productos = await fs.readFile(filePath, 'utf8');
+        //const arrayProductos = JSON.parse(productos)
+
+        const productos2 = await sql.getAllProducts()
 
         const {title, price, thumbnail, descripcion, stock} = newProduct
 
@@ -47,8 +56,8 @@ class ProductosAPI {
         const time = moment().format("DD-MM-YYYY HH:MM:SS")
         const newCodigo = uuidv4();
 
-        if(arrayProductos.length) {
-            newId = arrayProductos[arrayProductos.length - 1].id + 1
+        if(productos2.length) {
+            newId = productos2[productos2.length - 1].id + 1
         }
 
         const intId = Math.floor(newId)
@@ -63,20 +72,23 @@ class ProductosAPI {
             codigo: newCodigo,
             stock
         }
+        
+        const controller = await sql.insertProduct(product)
 
-        arrayProductos.push(product);
+        //arrayProductos.push(product);
 
-        const newData = JSON.stringify(arrayProductos, null, "\t")
+        //const newData = JSON.stringify(arrayProductos, null, "\t")
 
-        await fs.writeFile(filePath, newData)
-            return product
-        }
+        /*await fs.writeFile(filePath, newData)
+            return product*/
+        } 
 
     async updateById (id, newProduct) {
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
-        const indice = arrayProductos.findIndex(prod => prod.id == id);
-        const product = arrayProductos[indice]
+        /*const productos = await fs.readFile(filePath, 'utf8');
+        const arrayProductos = JSON.parse(productos) */
+        const productos = await sql.getAllProducts()
+        const indice = productos.findIndex(prod => prod.id == id);
+        const product = productos[indice]
 
         const {title, price, thumbnail, descripcion, stock} = newProduct
         const {timestamp, codigo} = product
@@ -87,44 +99,49 @@ class ProductosAPI {
             title,
             price,
             thumbnail,
-            id: intId,
             timestamp,
             descripcion,
             codigo,
             stock
         }
 
-        arrayProductos.splice(indice, 1, productoActualizado);
+        const controller = await sql.updateProduct(intId, productoActualizado)
 
-        const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, DataActualizada)
+        //arrayProductos.splice(indice, 1, productoActualizado);
+
+        //const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
+        //await fs.writeFile(filePath, DataActualizada)
 
         return productoActualizado
     }
 
     async deleteById (id){
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
-        const indice = arrayProductos.findIndex(prod => prod.id == id);
+        //const productos = await fs.readFile(filePath, 'utf8');
+        //const arrayProductos = JSON.parse(productos)
+        const productos = await sql.getAllProducts()
+        const indice = productos.findIndex(prod => prod.id == id);
 
-        arrayProductos.splice(indice, 1);
+        const controller = await sql.deleteProductById(id)
 
-        const newData = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, newData)
+        //arrayProductos.splice(indice, 1);
+
+        /*const newData = JSON.stringify(arrayProductos, null, "\t")
+        await fs.writeFile(filePath, newData) */
 
         return `eliminando el producto con el id: ${id}`
     }
 
     async eliminarStock(idProducto){
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos);
+        /*const productos = await fs.readFile(filePath, 'utf8');
+        const arrayProductos = JSON.parse(productos); */
+        const productos = await sql.getAllProducts()
         const existe = await this.exists(idProducto)
 
         if(!existe) throw createError(404, 'producto no encontrado')
 
-        const indice = arrayProductos.findIndex(prod => prod.id == idProducto);
+        const indice = productos.findIndex(prod => prod.id == idProducto);
 
-        const product = arrayProductos[indice]
+        const product = productos[indice]
 
         const {title, price, thumbnail, id, timestamp, descripcion, codigo, stock} = product;
 
@@ -141,10 +158,12 @@ class ProductosAPI {
             stock : newStock
         }
 
-        arrayProductos.splice(indice, 1, newProduct);
+        const constroller = await sql.updateStockById(idProducto, newStock);
+
+        /*arrayProductos.splice(indice, 1, newProduct);
 
         const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, DataActualizada)
+        await fs.writeFile(filePath, DataActualizada) */
 
         return "stock eliminado"
     }

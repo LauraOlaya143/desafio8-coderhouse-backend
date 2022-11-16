@@ -3,6 +3,7 @@ import fs from "fs/promises"
 import path from "path"
 import admin from "../middlewares/auth"
 import { ProductosController } from "../controller/productos"
+import { sql } from "../controller/BDproductos"
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -10,6 +11,7 @@ const rutaProductos = Router();
 
 rutaProductos.get("/", async (req, res) => {
     const data = await ProductosController.getAll()
+    const dataController = await ProductosController.crearBD()
     res.json({
         data
     })
@@ -42,11 +44,12 @@ rutaProductos.post("/", admin, async (req, res) => {
     //se guarda el nuevo ID para el producto
     const productos = await fs.readFile(filePath, 'utf8');
     const arrayProductos = JSON.parse(productos)
+    const productos2 = await sql.getAllProducts()
 
     let newId = 1
 
-    if(arrayProductos.length) {
-        newId = arrayProductos[arrayProductos.length - 1].id + 1
+    if(productos2.length) {
+        newId = productos2[productos2.length - 1].id + 1
     }
 
     // se guarda la informacion que paso el usuario
