@@ -1,11 +1,10 @@
-const express = require('express');
-const http = require('http');
-const io = require('socket.io');
-const { initWsServer } = require ("./socket")
-const rutaPrincipal = require('../routes/index')
-const { engine } = require('express-handlebars');
-const path = require('path');
-const { ProductosController } = require("../controller/productos")
+import express from "express";
+import http from "http";
+import { initWsServer } from "./socket"
+import rutaPrincipal from "../routes/index"
+import { engine } from 'express-handlebars'
+import path from "path"
+import { ProductosController } from "../controller/productos"
 
 const viewsFolderPath = path.resolve(__dirname, '../../views');
 const layoutsFolderPath = `${viewsFolderPath}/layouts`
@@ -69,4 +68,4 @@ const myServer = http.Server(app)
 
 initWsServer(myServer)
 
-module.exports = myServer;
+export default myServer;

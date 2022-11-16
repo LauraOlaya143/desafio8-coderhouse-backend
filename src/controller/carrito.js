@@ -1,6 +1,6 @@
-var createError = require('http-errors')
-const fs = require('fs/promises');
-const path = require('path');
+import createError from "http-errors"
+import fs from "fs/promises"
+import path from "path"
 
 const filePath = path.resolve(__dirname, '../../carritos.json');
 
@@ -156,8 +156,8 @@ class CarritoAPI {
     }
 }
 
-const instanciaCarritoApi = new CarritoAPI(filePath);
+const carritoController = new CarritoAPI(filePath);
 
-module.exports = {
-    carritoController : instanciaCarritoApi
+export {
+    carritoController
 }

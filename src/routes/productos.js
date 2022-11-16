@@ -1,8 +1,8 @@
-const { Router } = require('express')
-const fs = require('fs/promises');
-const path = require('path');
-const admin = require("../middlewares/auth")
-const { ProductosController } = require("../controller/productos")
+import { Router } from "express"
+import fs from "fs/promises"
+import path from "path"
+import admin from "../middlewares/auth"
+import { ProductosController } from "../controller/productos"
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -128,4 +128,4 @@ rutaProductos.delete("/:id", admin, async (req, res) => {
     })
 })
 
-module.exports = rutaProductos;
+export default rutaProductos;

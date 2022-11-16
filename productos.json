@@ -28,5 +28,13 @@
 		"descripcion": "Muñeca Rainbow High del año 2022",
 		"codigo": "n7NjmYqW",
 		"stock": 40
+	},
+	{
+		"title": "a",
+		"price": "25",
+		"thumbnail": "https://www.youloveit.com/uploads/posts/2022-09/medium/1663396852_youloveit_com_monster_high_2022_draculaura_doll3.jpg",
+		"id": 4,
+		"timestamp": "16-11-2022 11:11:75",
+		"codigo": "a479df62-8c5e-4302-9540-f731de19835b"
 	}
 ]

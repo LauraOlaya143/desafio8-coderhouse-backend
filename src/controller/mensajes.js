@@ -1,6 +1,6 @@
-var createError = require('http-errors')
-const fs = require('fs/promises');
-const path = require('path');
+import createError from "http-errors"
+import fs from "fs/promises"
+import path from "path"
 
 const filePath = path.resolve(__dirname, '../../mensajes.json');
 
@@ -23,8 +23,8 @@ class ProductosAPI {
 
 }
 
-const instanciaProductosApi = new ProductosAPI(filePath);
+const messageController = new ProductosAPI(filePath);
 
-module.exports = {
-    messageController: instanciaProductosApi
+export {
+    messageController
 }

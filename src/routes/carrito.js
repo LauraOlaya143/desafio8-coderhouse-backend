@@ -1,6 +1,6 @@
-const { Router } = require('express')
-const { carritoController } = require("../controller/carrito")
-const { ProductosController } = require("../controller/productos")
+import { Router } from "express"
+import { carritoController } from "../controller/productos"
+import { ProductosController } from "../controller/productos"
 
 const rutaCarrito = Router();
 
@@ -63,4 +63,4 @@ rutaCarrito.delete("/:idCarrito/productos/:idProducto", async (req, res) => {
     })
 })
 
-module.exports = rutaCarrito;
+export default rutaCarrito;

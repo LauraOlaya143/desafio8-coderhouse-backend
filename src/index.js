@@ -1,4 +1,4 @@
-const server = require("./services/server")
+import server from "./services/server"
 
 const puerto = process.env.PORT || 8080;
 

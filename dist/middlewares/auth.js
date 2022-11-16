@@ -1,8 +1,13 @@
 "use strict";
 
-var Config = require('../config/index');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _index = _interopRequireDefault(require("../config/index"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var admin = function admin(req, res, next) {
-  if (!Config.administrador) {
+  if (!_index["default"].administrador) {
     return res.status(401).json({
       error: -1,
       descripcion: "Metodo no autorizado"
@@ -10,4 +15,5 @@ var admin = function admin(req, res, next) {
   }
   next();
 };
-module.exports = admin;
+var _default = admin;
+exports["default"] = _default;

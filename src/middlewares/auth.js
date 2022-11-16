@@ -1,4 +1,4 @@
-const Config = require('../config/index')
+import Config from "../config/index"
 
 const admin = (req, res, next) => {
     if(!Config.administrador){
@@ -10,4 +10,4 @@ const admin = (req, res, next) => {
     next()
 }
 
-module.exports = admin;
+export default admin;
