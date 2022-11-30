@@ -11,7 +11,6 @@ const rutaProductos = Router();
 
 rutaProductos.get("/", async (req, res) => {
     const data = await ProductosController.getAll()
-    const dataController = await ProductosController.crearBD()
     res.json({
         data
     })
@@ -20,7 +19,7 @@ rutaProductos.get("/", async (req, res) => {
 rutaProductos.get("/:id", async (req, res) => {
     const id = req.params.id;
     try{
-        const product = await ProductosController.getById(id);
+        const product = await ProductosController.getById(id);1
 
         res.json({
             msg: `id del productos: ${id}`,
@@ -42,7 +41,7 @@ rutaProductos.get("/:id", async (req, res) => {
 
 rutaProductos.post("/", admin, async (req, res) => {
     //se guarda el nuevo ID para el producto
-    const productos = await fs.readFile(filePath, 'utf8');
+    /*const productos = await fs.readFile(filePath, 'utf8');
     const arrayProductos = JSON.parse(productos)
     const productos2 = await sql.getAllProducts()
 
@@ -50,7 +49,7 @@ rutaProductos.post("/", admin, async (req, res) => {
 
     if(productos2.length) {
         newId = productos2[productos2.length - 1].id + 1
-    }
+    }*/
 
     // se guarda la informacion que paso el usuario
 
@@ -75,7 +74,7 @@ rutaProductos.post("/", admin, async (req, res) => {
 
     // se crea un nuevo usuario y se le envia al controlador
 
-    let nuevoUsuario = {
+    let nuevoProducto = {
         title,
         price: priceNumber,
         thumbnail,
@@ -83,15 +82,16 @@ rutaProductos.post("/", admin, async (req, res) => {
         stock: stockNumber
     }
 
-    const dataController = await ProductosController.saveNewProduct(nuevoUsuario)
+    const dataController = await ProductosController.saveNewProduct(nuevoProducto)
 
     res.json({
-        msg: `Se agrego el producto con el id: ${newId}`,
-        data: nuevoUsuario
+        msg: `Se agrego el producto`,
+        data: dataController
     })
 })
 
 rutaProductos.put("/:id", admin, async (req, res) => {
+    try{
     const id = req.params.id;
     const {title, price, thumbnail, descripcion, stock} = req.body
 
@@ -120,15 +120,40 @@ rutaProductos.put("/:id", admin, async (req, res) => {
         msg: `actualizando el producto con el id: ${id}`,
         data: DataActualizada,
     })
+    }catch (err) {
+        const status = err.status || 500;
+        const message = err.message || "internal server error";
+
+        console.log(err.stack)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+    }
 })
 
 rutaProductos.delete("/:id", admin, async (req, res) => {
     const id = req.params.id;
-    const message = await ProductosController.deleteById(id)
+    try{
+        const message = await ProductosController.deleteById(id)
 
-    res.json({
-        msg: message
-    })
+        res.json({
+            msg: message
+        })
+    } catch (err) {
+        const status = err.status || 500;
+        const message = err.message || "internal server error";
+
+        console.log(err.stack)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+    }
 })
 
 export default rutaProductos;
