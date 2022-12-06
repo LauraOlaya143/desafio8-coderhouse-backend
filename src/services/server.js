@@ -7,6 +7,12 @@ import path from "path"
 import { ProductosController } from "../controller/productos"
 import { messageController } from "../controller/mensajes"
 import morgan from "morgan";
+import {faker} from "@faker-js/faker"
+import moment from "moment"
+import { v4 as uuidv4 } from 'uuid';
+import { normalizado, desnormalizar } from "../controller/normalizado.js"
+
+faker.locale = "es"
 
 const viewsFolderPath = path.resolve(__dirname, '../../views');
 const layoutsFolderPath = `${viewsFolderPath}/layouts`
@@ -39,14 +45,72 @@ app.get("/", async (req, res) => {
     const data = await ProductosController.getAll()
     const cantidadObjetos = data.length
     const validarArray = cantidadObjetos > 0 ? true : false
-    res.render("main", { productos: data, cantidad: validarArray})
+
+    let respuesta = []
+
+    for (let i = 0; i < data.length; i++) {
+        respuesta.push({
+            id: data[i]._id,
+            title: data[i].title,
+            price: data[i].price,
+            thumbnail: data[i].thumbnail,
+            timestamp: data[i].timestamp,
+            descripcion: data[i].descripcion,
+            codigo: data[i].codigo,
+            stock: data[i].stock
+        })
+        
+    }
+
+    res.render("main", { productos: respuesta, cantidad: validarArray})
 })
 
 app.get("/productos", async (req, res) => {
     const data = await ProductosController.getAll()
+    let respuesta = []
+    for (let i = 0; i < data.length; i++) {
+        respuesta.push({
+            id: data[i]._id,
+            title: data[i].title,
+            price: data[i].price,
+            thumbnail: data[i].thumbnail,
+            timestamp: data[i].timestamp,
+            descripcion: data[i].descripcion,
+            codigo: data[i].codigo,
+            stock: data[i].stock
+        })
+        
+    }
     const cantidadObjetos = data.length
     const validarArray = cantidadObjetos > 0 ? true : false
-    res.render("showProducts", { productos: data, cantidad: validarArray})
+    res.render("showProducts", { productos: respuesta, cantidad: validarArray})
+})
+
+app.get("/productos-test", async (req, res) => {
+    let respuesta = [];
+    for (let i = 0; i < 5; i++) {
+        const time = moment().format("DD-MM-YYYY HH:MM:SS");
+        const newCodigo = uuidv4();
+        const newStock = faker.random.numeric(3);
+
+        const newStockNumber = Math.floor(newStock)
+
+        respuesta.push({
+            id: faker.database.mongodbObjectId(),
+            title: faker.commerce.product(),
+            price: faker.commerce.price(100, 200, 0, '$'),
+            thumbnail: faker.image.animals(1234, 2345, true),
+            timestamp: time,
+            descripcion: faker.commerce.productDescription(),
+            codigo: newCodigo,
+            stock: newStockNumber
+        })
+    }
+
+    const cantidadObjetos = respuesta.length
+    const validarArray = cantidadObjetos > 0 ? true : false
+
+    res.render("showProducts", { productos: respuesta, cantidad: validarArray})
 })
 
 app.get("/formulario", (req, res) => {
@@ -69,9 +133,49 @@ app.use((err, req, res, next) => {
 app.use("/api", rutaPrincipal)
 
 app.get("/mensajes", async (req, res) => {
-    const controller = await messageController.crearBD()
+    const controller = await messageController.getAll()
     res.json({
-        msg: "Tabla creada!"
+        data : controller
+    })
+})
+
+app.post("/mensajes", async (req, res) => {
+    const {email, nombre, apellido, edad, alias, avatar, text} = req.body
+
+    const edadNum = Math.floor(edad)
+
+    const objetoUsuario = {
+        email,
+        nombre,
+        apellido,
+        edad: edadNum,
+        alias,
+        avatar
+    }
+
+    const newMensaje = {
+        author: objetoUsuario,
+        text
+    }
+
+    const controller = await messageController.saveNewMessage(newMensaje)
+
+    res.json({
+        data: controller
+    })
+})
+
+app.get("/mensajes-normalizados", async (req, res) => {
+    const data = await normalizado();
+    res.json({
+        data
+    })
+})
+
+app.get("/mensajes-desnormalizados", async (req, res) => {
+    const data = await desnormalizar();
+    res.json({
+        data
     })
 })
 

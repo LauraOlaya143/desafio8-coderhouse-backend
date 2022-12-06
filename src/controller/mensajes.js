@@ -2,12 +2,18 @@ import createError from "http-errors"
 import fs from "fs/promises"
 import path from "path"
 import { sqlite } from "./BDmensajes"
+import {MongoMensajesController} from "./mensajesMongo.js"
 
-const filePath = path.resolve(__dirname, '../../mensajes.json');
+const filePath = path.resolve(__dirname, '../../data/mensajes.json');
 
 class ProductosAPI {
     constructor(archivo) {
         this.archivo = archivo;
+    }
+
+    async getAll(){
+        const mensajes = await MongoMensajesController.getAllMensajes()
+        return mensajes
     }
 
     async crearBD(){
@@ -25,12 +31,19 @@ class ProductosAPI {
 
         const newData = JSON.stringify(arrayMensajes, null, "\t")
 
-        await fs.writeFile(filePath, newData)*/
-        const mensajes = await sqlite.getAllMessages()
-        const controller = await sqlite.insertMessage(message)
-            return message
-        }
+        await fs.writeFile(filePath, newData)
 
+        SQL:
+        const mensajes = await sqlite.getAllMessages()
+        const controller = await sqlite.insertMessage(message)*/
+        const newMensaje = await MongoMensajesController.createMensaje(message)
+        const mensajes = await MongoMensajesController.getAllMensajes()
+        const newData = JSON.stringify(mensajes, null, "\t")
+
+        await fs.writeFile(filePath, newData)
+        
+            return newMensaje
+        }
 }
 
 const messageController = new ProductosAPI(filePath);
