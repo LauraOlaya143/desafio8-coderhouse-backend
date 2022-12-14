@@ -123,9 +123,36 @@ app.post("/login", async (req, res) => {
     }
 })
 
+app.post("/login-json", async (req, res) => {
+    const { username, password } = req.body;
+
+    const index = users.findIndex((user) => user.username === username && user.password === password)
+
+    console.log(index);
+
+    if(index < 0) {
+        res.status(401).json({msg: "No estas autorizado :c"});
+    } else {
+        const user = users[index];
+        req.session.info = {
+            username: user.username,
+            loggedIn: true,
+            contador: 1,
+            admin: user.admin,
+        }
+
+        res.json({msg: `Bienvenido ${user.username}`})
+    }
+})
+
 app.post('/logout', (req, res) => {
     req.session.destroy();
     res.render("loginDespedida")
+});
+
+app.post('/logout-json', (req, res) => {
+    req.session.destroy();
+    res.json({msg: "Session destruida"})
 });
 
 app.get("/login", (req, res) => {
