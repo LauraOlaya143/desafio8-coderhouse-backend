@@ -1,4 +1,9 @@
 <div class="center">
+    {{#if nombre}}
+    <div>
+        {{> hbs/bienvenido}}
+    </div>
+    {{/if}}
     <div>
         {{> hbs/formularioHbs}}
         {{> hbs/productosHbs}}

@@ -2,14 +2,12 @@
 	{
 		"id": 1,
 		"products": [
-			[
-				{
-					"title": "Monster High Doll",
-					"price": 25,
-					"thumbnail": "https://i.pinimg.com/550x/4d/61/af/4d61afabd1395a73f457ac6e62a4a46d.jpg",
-					"id": 1
-				}
-			]
+			{
+				"title": "Monster High Doll",
+				"price": 25,
+				"thumbnail": "https://i.pinimg.com/550x/4d/61/af/4d61afabd1395a73f457ac6e62a4a46d.jpg",
+				"id": 1
+			}
 		]
 	},
 	{
