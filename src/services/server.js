@@ -14,6 +14,8 @@ import { normalizado, desnormalizar } from "../controller/normalizado.js"
 import cookieParser from "cookie-parser"
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import passport from "passport";
+import {loginFunc, signUpFunc} from "../services/auth.js"
 
 faker.locale = "es"
 
@@ -67,6 +69,12 @@ const StoreOptions = {
 };
 
 app.use(session(StoreOptions))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use("login", loginFunc);
+passport.use("signup", signUpFunc);
 
 const users = [
     {
