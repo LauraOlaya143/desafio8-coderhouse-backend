@@ -4,7 +4,7 @@ import { signUp, login, getHome } from '../controller/userController.js';
 
 const rutaUsuarios = Router();
 
-const passportOptions = { badRequestMessage: "Falta username / password"}
+const passportOptions = { badRequestMessage: "Falta email / password"}
 
 const isLoggedIn = (req, res, next) => {
     console.log(req.isAuthenticated());
