@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src --out-dir dist",
     "start": "npm run build && node dist/index.js",
-    "dev": "nodemon --exec babel-node src/index"
+    "dev": "nodemon --exec babel-node src/index",
+    "prueba": "nodemon --exec babel-node src/index --p 8000"
   },
   "keywords": [],
   "author": "",

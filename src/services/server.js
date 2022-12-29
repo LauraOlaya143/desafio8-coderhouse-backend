@@ -1,4 +1,4 @@
-import express from "express";
+import express, { json } from "express";
 import http from "http";
 import { initWsServer } from "./socket"
 import rutaPrincipal from "../routes/index"
@@ -302,6 +302,25 @@ app.get("/mensajes-desnormalizados", async (req, res) => {
     const data = await desnormalizar();
     res.json({
         data
+    })
+})
+
+app.get("/info", (req, res) => {
+    const directorio = process.cwd();
+    const idProcesoActual = process.pid;
+    const versionNode = process.version;
+    const nombreProceso = process.title;
+    const sistemaOperativo = process.platform;
+    const memory = JSON.stringify(process.memoryUsage())
+
+    res.json({
+        msg: "datos...",
+        directorio,
+        idProcesoActual,
+        versionNode,
+        nombreProceso,
+        sistemaOperativo,
+        memoriaTotal: memory
     })
 })
 
