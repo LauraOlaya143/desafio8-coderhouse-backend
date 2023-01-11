@@ -324,6 +324,19 @@ app.get("/info", (req, res) => {
     })
 })
 
+app.get('/slow', function (req, res) {
+    console.log(`PID= ${process.pid}`);
+    let sum = 0;
+    for (let i = 0; i < 15006500445; i++) {
+        sum += i;
+    }
+
+    res.json({
+        pid: process.pid,
+        sum,
+    });
+});
+
 const myServer = http.Server(app)
 
 initWsServer(myServer)

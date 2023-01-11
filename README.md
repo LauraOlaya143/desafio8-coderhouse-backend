@@ -6,3 +6,15 @@ la ruta "/login" tiene el metodo de get, lo cual significa que funciona desde el
 - nombre: jose, conreaseña: 123456
 
 Al probar con uno de los dos usuarios se podra ver como aparece un mensaje de bienvenida arriba del contenido (productos, formulario, etc)
+
+///
+
+Comandos usados en consola para usar PM2:
+
+Modo Folk: pm2 start dist/index.js
+
+Modo Cluster: pm2 start dist/index.js --name="server" --watch -i max
+
+PM2 Ecosystem: pm2 start ecosystem.config.cjs
+
+el archivo nginx1.conf muestra la solucion del primer inciso

@@ -8,7 +8,9 @@
     "build": "babel src --out-dir dist",
     "start": "npm run build && node dist/index.js",
     "dev": "nodemon --exec babel-node src/index",
-    "prueba": "nodemon --exec babel-node src/index --p 8000"
+    "prueba": "nodemon --exec babel-node src/index --p 8000 --m CLUSTER",
+    "pruebaForever": "forever start dist/index.js",
+    "listForever": "forever list"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +33,7 @@
     "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
     "express-session": "^1.17.3",
+    "forever": "^4.0.3",
     "http-error": "^0.0.6",
     "http-errors": "^2.0.0",
     "knex": "^2.3.0",

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var config = {
-  administrador: false
+  administrador: true
 };
 var _default = config;
 exports["default"] = _default;
