@@ -1,10 +1,11 @@
 import { Router } from "express"
 import { carritoController } from "../controller/carrito"
 import { ProductosController } from "../controller/productos"
+import info from "../middlewares/logger.js"
 
 const rutaCarrito = Router();
 
-rutaCarrito.get("/:id/productos", async (req, res) => {
+rutaCarrito.get("/:id/productos", info, async (req, res) => {
     const id = req.params.id;
     try{
         const data = await carritoController.getById(id)
@@ -27,14 +28,14 @@ rutaCarrito.get("/:id/productos", async (req, res) => {
     }
 })
 
-rutaCarrito.post("/", async (req, res) =>{
+rutaCarrito.post("/", info, async (req, res) =>{
     const dataController = await carritoController.saveNewCar()
     res.json({
         msg: dataController
     })
 })
 
-rutaCarrito.delete("/:id", async (req, res) => {
+rutaCarrito.delete("/:id", info, async (req, res) => {
     const id = req.params.id;
     const message = await carritoController.deleteCartById(id)
     res.json({
@@ -42,7 +43,7 @@ rutaCarrito.delete("/:id", async (req, res) => {
     })
 })
 
-rutaCarrito.post("/:idCarrito/productos/:idProducto", async (req, res) =>{
+rutaCarrito.post("/:idCarrito/productos/:idProducto", info, async (req, res) =>{
     const idProducto= req.params.idProducto;
     const idCarrito = req.params.idCarrito
     const product = await ProductosController.getById(idProducto);
@@ -54,7 +55,7 @@ rutaCarrito.post("/:idCarrito/productos/:idProducto", async (req, res) =>{
     })
 })
 
-rutaCarrito.delete("/:idCarrito/productos/:idProducto", async (req, res) => {
+rutaCarrito.delete("/:idCarrito/productos/:idProducto", info, async (req, res) => {
     const idCarrito = req.params.idCarrito;
     const idProducto = req.params.idProducto
     const message = await carritoController.deleteProductoById(idCarrito, idProducto)

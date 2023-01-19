@@ -16,6 +16,10 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from "passport";
 import {loginFunc, signUpFunc} from "../services/auth.js"
+import compression from 'compression';
+
+import logger from "../utils/logger.js"
+import info from "../middlewares/logger.js"
 
 faker.locale = "es"
 
@@ -32,6 +36,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"))
 
 app.use(morgan("dev"));
+
+app.use(compression());
 
 /* Views creadas con hbs:*/
 
@@ -89,7 +95,7 @@ const users = [
     }
 ]
 
-app.post("/login", async (req, res) => {
+app.post("/login",info, async (req, res) => {
     const { username, password } = req.body;
 
     const index = users.findIndex((user) => user.username === username && user.password === password)
@@ -117,6 +123,7 @@ app.post("/login", async (req, res) => {
     }
 
     if(index < 0) {
+        logger.error("No estas autorizado")
         res.status(401).json({msg: "No estas autorizado :c"});
     } else {
         const user = users[index];
@@ -131,7 +138,7 @@ app.post("/login", async (req, res) => {
     }
 })
 
-app.post("/login-json", async (req, res) => {
+app.post("/login-json",info, async (req, res) => {
     const { username, password } = req.body;
 
     const index = users.findIndex((user) => user.username === username && user.password === password)
@@ -153,21 +160,31 @@ app.post("/login-json", async (req, res) => {
     }
 })
 
-app.post('/logout', (req, res) => {
+app.post('/logout',info, (req, res) => {
     req.session.destroy();
     res.render("loginDespedida")
 });
 
-app.post('/logout-json', (req, res) => {
+app.post('/logout-json',info, (req, res) => {
     req.session.destroy();
     res.json({msg: "Session destruida"})
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", info, (req, res) => {
     res.render("loginHbs")
 })
 
-app.get("/", async (req, res) => {
+app.get("/hola", info, (req, res) => {
+    const ruta = req.url;
+    const metodo = req.method
+
+    res.json({
+        ruta,
+        metodo,
+    })
+})
+
+app.get("/", info, async (req, res) => {
     const data = await ProductosController.getAll()
     const cantidadObjetos = data.length
     const validarArray = cantidadObjetos > 0 ? true : false
@@ -191,7 +208,7 @@ app.get("/", async (req, res) => {
     res.render("main", { productos: respuesta, cantidad: validarArray})
 })
 
-app.get("/productos", async (req, res) => {
+app.get("/productos", info, async (req, res) => {
     const data = await ProductosController.getAll()
     let respuesta = []
     for (let i = 0; i < data.length; i++) {
@@ -212,7 +229,7 @@ app.get("/productos", async (req, res) => {
     res.render("showProducts", { productos: respuesta, cantidad: validarArray})
 })
 
-app.get("/productos-test", async (req, res) => {
+app.get("/productos-test", info, async (req, res) => {
     let respuesta = [];
     for (let i = 0; i < 5; i++) {
         const time = moment().format("DD-MM-YYYY HH:MM:SS");
@@ -239,7 +256,7 @@ app.get("/productos-test", async (req, res) => {
     res.render("showProducts", { productos: respuesta, cantidad: validarArray})
 })
 
-app.get("/formulario", (req, res) => {
+app.get("/formulario",info, (req, res) => {
     res.render("formularioHbs")
 })
 
@@ -258,54 +275,109 @@ app.use((err, req, res, next) => {
 
 app.use("/api", rutaPrincipal)
 
-app.get("/mensajes", async (req, res) => {
-    const controller = await messageController.getAll()
-    res.json({
-        data : controller
-    })
-})
+app.get("/mensajes", info, async (req, res) => {
+    try {
+        const controller = await messageController.getAll()
+        res.json({
+            data : controller
+        })
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
 
-app.post("/mensajes", async (req, res) => {
-    const {email, nombre, apellido, edad, alias, avatar, text} = req.body
+        logger.error(message)
 
-    const edadNum = Math.floor(edad)
-
-    const objetoUsuario = {
-        email,
-        nombre,
-        apellido,
-        edad: edadNum,
-        alias,
-        avatar
+        res.status(status).json(
+            {
+                message
+            }
+        )
     }
+    
+})
 
-    const newMensaje = {
-        author: objetoUsuario,
-        text
+app.post("/mensajes", info, async (req, res) => {
+    try {
+        const {email, nombre, apellido, edad, alias, avatar, text} = req.body
+
+        const edadNum = Math.floor(edad)
+
+        const objetoUsuario = {
+            email,
+            nombre,
+            apellido,
+            edad: edadNum,
+            alias,
+            avatar
+        }
+
+        const newMensaje = {
+            author: objetoUsuario,
+            text
+        }
+
+        const controller = await messageController.saveNewMessage(newMensaje)
+
+        res.json({
+            data: controller
+        })
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
+
+        logger.error(message)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
     }
-
-    const controller = await messageController.saveNewMessage(newMensaje)
-
-    res.json({
-        data: controller
-    })
 })
 
-app.get("/mensajes-normalizados", async (req, res) => {
-    const data = await normalizado();
-    res.json({
-        data
-    })
+app.get("/mensajes-normalizados", info, async (req, res) => {
+    try {
+        const data = await normalizado();
+        res.json({
+            data
+        })
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
+
+        logger.error(message)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+    }
+    
 })
 
-app.get("/mensajes-desnormalizados", async (req, res) => {
-    const data = await desnormalizar();
-    res.json({
-        data
-    })
+app.get("/mensajes-desnormalizados", info, async (req, res) => {
+    try {
+        const data = await desnormalizar();
+        res.json({
+            data
+        })
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
+
+        logger.error(message)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+    }
+    
 })
 
-app.get("/info", (req, res) => {
+app.get("/info", info, (req, res) => {
     const directorio = process.cwd();
     const idProcesoActual = process.pid;
     const versionNode = process.version;
@@ -324,7 +396,7 @@ app.get("/info", (req, res) => {
     })
 })
 
-app.get('/slow', function (req, res) {
+app.get('/slow', info, function (req, res) {
     console.log(`PID= ${process.pid}`);
     let sum = 0;
     for (let i = 0; i < 15006500445; i++) {
@@ -336,6 +408,13 @@ app.get('/slow', function (req, res) {
         sum,
     });
 });
+
+app.get('/*', info, (req, res) => {
+    logger.warn("Ruta no encontrada :c")
+    res.json({
+        msg: "Esta ruta no existe :c"
+    })
+})
 
 const myServer = http.Server(app)
 

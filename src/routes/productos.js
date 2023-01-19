@@ -3,20 +3,37 @@ import fs from "fs/promises"
 import path from "path"
 import admin from "../middlewares/auth"
 import { ProductosController } from "../controller/productos"
-import { sql } from "../controller/BDproductos"
+// import { sql } from "../controller/BDproductos"
+import info from "../middlewares/logger.js"
+
+import logger from "../utils/logger.js"
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
 const rutaProductos = Router();
 
-rutaProductos.get("/", async (req, res) => {
-    const data = await ProductosController.getAll()
-    res.json({
-        data
-    })
+rutaProductos.get("/", info, async (req, res) => {
+    try {
+        const data = await ProductosController.getAll()
+        res.json({
+            data
+        })
+    } catch (error) {
+        const status = error.status || 500;
+        const message = error.message || "internal server error";
+
+        logger.error(message)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+    }
+    
 })
 
-rutaProductos.get("/:id", async (req, res) => {
+rutaProductos.get("/:id", info, async (req, res) => {
     const id = req.params.id;
     try{
         const product = await ProductosController.getById(id);1
@@ -29,7 +46,7 @@ rutaProductos.get("/:id", async (req, res) => {
         const status = err.status || 500;
         const message = err.message || "internal server error";
 
-        console.log(err.stack)
+        logger.error(message)
 
         res.status(status).json(
             {
@@ -39,7 +56,7 @@ rutaProductos.get("/:id", async (req, res) => {
     }
 })
 
-rutaProductos.post("/", admin, async (req, res) => {
+rutaProductos.post("/", info, admin, async (req, res) => {
     //se guarda el nuevo ID para el producto
     /*const productos = await fs.readFile(filePath, 'utf8');
     const arrayProductos = JSON.parse(productos)
@@ -67,6 +84,7 @@ rutaProductos.post("/", admin, async (req, res) => {
     const comprobarStock = isNaN(stockNumber)
 
     if(!title || !price || !thumbnail || !descripcion || !stock || comprobarPrecio || comprobarStock){
+        logger.error("campos invalidos")
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -90,7 +108,7 @@ rutaProductos.post("/", admin, async (req, res) => {
     })
 })
 
-rutaProductos.put("/:id", admin, async (req, res) => {
+rutaProductos.put("/:id", info, admin, async (req, res) => {
     try{
     const id = req.params.id;
     const {title, price, thumbnail, descripcion, stock} = req.body
@@ -101,6 +119,7 @@ rutaProductos.put("/:id", admin, async (req, res) => {
     const comprobarStock = isNaN(stockNumber)
 
     if(!title || !price || !thumbnail || !descripcion || !stock || comprobarPrecio || comprobarStock){
+        logger.error("Campos invalidos")
         return res.status(400).json({
             msg: "Campos invalidos"
         })
@@ -124,7 +143,7 @@ rutaProductos.put("/:id", admin, async (req, res) => {
         const status = err.status || 500;
         const message = err.message || "internal server error";
 
-        console.log(err.stack)
+        logger.error(message)
 
         res.status(status).json(
             {
@@ -134,7 +153,7 @@ rutaProductos.put("/:id", admin, async (req, res) => {
     }
 })
 
-rutaProductos.delete("/:id", admin, async (req, res) => {
+rutaProductos.delete("/:id", info, admin, async (req, res) => {
     const id = req.params.id;
     try{
         const message = await ProductosController.deleteById(id)
@@ -146,7 +165,7 @@ rutaProductos.delete("/:id", admin, async (req, res) => {
         const status = err.status || 500;
         const message = err.message || "internal server error";
 
-        console.log(err.stack)
+        logger.error(message)
 
         res.status(status).json(
             {

@@ -1,6 +1,7 @@
 import { Router } from "express"
 import passport from "passport";
 import { signUp, login, getHome } from '../controller/userController.js';
+import info from "../middlewares/logger.js"
 
 const rutaUsuarios = Router();
 
@@ -12,10 +13,10 @@ const isLoggedIn = (req, res, next) => {
     next();
 }
 
-rutaUsuarios.post('/signup', signUp)
+rutaUsuarios.post('/signup', info, signUp)
 
-rutaUsuarios.post('/login', passport.authenticate('login', passportOptions), login);
+rutaUsuarios.post('/login',info, passport.authenticate('login', passportOptions), login);
 
-rutaUsuarios.get('/home', isLoggedIn, getHome )
+rutaUsuarios.get('/home',info, isLoggedIn, getHome )
 
 export default rutaUsuarios;

@@ -3,10 +3,11 @@ import admin from "../middlewares/auth"
 import {faker} from "@faker-js/faker"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
+import info from "../middlewares/logger.js"
 
 const rutaProductosTest = Router();
 
-rutaProductosTest.get("/", async (req, res) => {
+rutaProductosTest.get("/", info, async (req, res) => {
     let respuesta = [];
     for (let i = 0; i < 5; i++) {
         const time = moment().format("DD-MM-YYYY HH:MM:SS");

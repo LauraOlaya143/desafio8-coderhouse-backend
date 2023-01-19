@@ -2,6 +2,7 @@ import { Router } from "express"
 import { fork } from 'child_process';
 import path from 'path'
 import minimist from 'minimist';
+import info from "../middlewares/logger.js"
 
 const direccion = path.resolve(__dirname, '../utils/calculo.js');
 
@@ -22,7 +23,7 @@ const puerto = args.port;
 
 const rutaRandom = Router();
 
-rutaRandom.get('/', (req, res) => {
+rutaRandom.get('/', info, (req, res) => {
     const {cant} = req.query;
     const cantidad = parseFloat(cant)
     const computo = fork(direccion, [cantidad]);
