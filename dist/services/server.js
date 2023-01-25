@@ -24,6 +24,8 @@ var _connectMongo = _interopRequireDefault(require("connect-mongo"));
 var _passport = _interopRequireDefault(require("passport"));
 var _auth = require("../services/auth.js");
 var _compression = _interopRequireDefault(require("compression"));
+var _logger = _interopRequireDefault(require("../utils/logger.js"));
+var _logger2 = _interopRequireDefault(require("../middlewares/logger.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -86,7 +88,7 @@ var users = [{
   password: '123456',
   admin: false
 }];
-app.post("/login", /*#__PURE__*/function () {
+app.post("/login", _logger2["default"], /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(req, res) {
     var _req$body, username, password, index, data, cantidadObjetos, validarArray, respuesta, i, user;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
@@ -118,6 +120,7 @@ app.post("/login", /*#__PURE__*/function () {
               });
             }
             if (index < 0) {
+              _logger["default"].error("No estas autorizado");
               res.status(401).json({
                 msg: "No estas autorizado :c"
               });
@@ -146,7 +149,7 @@ app.post("/login", /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
-app.post("/login-json", /*#__PURE__*/function () {
+app.post("/login-json", _logger2["default"], /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
     var _req$body2, username, password, index, user;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
@@ -185,20 +188,28 @@ app.post("/login-json", /*#__PURE__*/function () {
     return _ref2.apply(this, arguments);
   };
 }());
-app.post('/logout', function (req, res) {
+app.post('/logout', _logger2["default"], function (req, res) {
   req.session.destroy();
   res.render("loginDespedida");
 });
-app.post('/logout-json', function (req, res) {
+app.post('/logout-json', _logger2["default"], function (req, res) {
   req.session.destroy();
   res.json({
     msg: "Session destruida"
   });
 });
-app.get("/login", function (req, res) {
+app.get("/login", _logger2["default"], function (req, res) {
   res.render("loginHbs");
 });
-app.get("/", /*#__PURE__*/function () {
+app.get("/hola", _logger2["default"], function (req, res) {
+  var ruta = req.url;
+  var metodo = req.method;
+  res.json({
+    ruta: ruta,
+    metodo: metodo
+  });
+});
+app.get("/", _logger2["default"], /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
     var data, cantidadObjetos, validarArray, respuesta, i;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
@@ -239,7 +250,7 @@ app.get("/", /*#__PURE__*/function () {
     return _ref3.apply(this, arguments);
   };
 }());
-app.get("/productos", /*#__PURE__*/function () {
+app.get("/productos", _logger2["default"], /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
     var data, respuesta, i, cantidadObjetos, validarArray;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
@@ -280,7 +291,7 @@ app.get("/productos", /*#__PURE__*/function () {
     return _ref4.apply(this, arguments);
   };
 }());
-app.get("/productos-test", /*#__PURE__*/function () {
+app.get("/productos-test", _logger2["default"], /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(req, res) {
     var respuesta, i, time, newCodigo, newStock, newStockNumber, cantidadObjetos, validarArray;
     return _regeneratorRuntime().wrap(function _callee5$(_context5) {
@@ -321,7 +332,7 @@ app.get("/productos-test", /*#__PURE__*/function () {
     return _ref5.apply(this, arguments);
   };
 }());
-app.get("/formulario", function (req, res) {
+app.get("/formulario", _logger2["default"], function (req, res) {
   res.render("formularioHbs");
 });
 app.use(function (err, req, res, next) {
@@ -333,38 +344,51 @@ app.use(function (err, req, res, next) {
   });
 });
 app.use("/api", _index["default"]);
-app.get("/mensajes", /*#__PURE__*/function () {
+app.get("/mensajes", _logger2["default"], /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(req, res) {
-    var controller;
+    var controller, status, message;
     return _regeneratorRuntime().wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.next = 2;
+            _context6.prev = 0;
+            _context6.next = 3;
             return _mensajes.messageController.getAll();
-          case 2:
+          case 3:
             controller = _context6.sent;
             res.json({
               data: controller
             });
-          case 4:
+            _context6.next = 13;
+            break;
+          case 7:
+            _context6.prev = 7;
+            _context6.t0 = _context6["catch"](0);
+            status = _context6.t0.status || 500;
+            message = _context6.t0.message || "internal server error";
+            _logger["default"].error(message);
+            res.status(status).json({
+              message: message
+            });
+          case 13:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6);
+    }, _callee6, null, [[0, 7]]);
   }));
   return function (_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
 }());
-app.post("/mensajes", /*#__PURE__*/function () {
+app.post("/mensajes", _logger2["default"], /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(req, res) {
-    var _req$body3, email, nombre, apellido, edad, alias, avatar, text, edadNum, objetoUsuario, newMensaje, controller;
+    var _req$body3, email, nombre, apellido, edad, alias, avatar, text, edadNum, objetoUsuario, newMensaje, controller, status, message;
     return _regeneratorRuntime().wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
+            _context7.prev = 0;
             _req$body3 = req.body, email = _req$body3.email, nombre = _req$body3.nombre, apellido = _req$body3.apellido, edad = _req$body3.edad, alias = _req$body3.alias, avatar = _req$body3.avatar, text = _req$body3.text;
             edadNum = Math.floor(edad);
             objetoUsuario = {
@@ -379,75 +403,110 @@ app.post("/mensajes", /*#__PURE__*/function () {
               author: objetoUsuario,
               text: text
             };
-            _context7.next = 6;
+            _context7.next = 7;
             return _mensajes.messageController.saveNewMessage(newMensaje);
-          case 6:
+          case 7:
             controller = _context7.sent;
             res.json({
               data: controller
             });
-          case 8:
+            _context7.next = 17;
+            break;
+          case 11:
+            _context7.prev = 11;
+            _context7.t0 = _context7["catch"](0);
+            status = _context7.t0.status || 500;
+            message = _context7.t0.message || "internal server error";
+            _logger["default"].error(message);
+            res.status(status).json({
+              message: message
+            });
+          case 17:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7);
+    }, _callee7, null, [[0, 11]]);
   }));
   return function (_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }());
-app.get("/mensajes-normalizados", /*#__PURE__*/function () {
+app.get("/mensajes-normalizados", _logger2["default"], /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8(req, res) {
-    var data;
+    var data, status, message;
     return _regeneratorRuntime().wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            _context8.next = 2;
+            _context8.prev = 0;
+            _context8.next = 3;
             return (0, _normalizado.normalizado)();
-          case 2:
+          case 3:
             data = _context8.sent;
             res.json({
               data: data
             });
-          case 4:
+            _context8.next = 13;
+            break;
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            status = _context8.t0.status || 500;
+            message = _context8.t0.message || "internal server error";
+            _logger["default"].error(message);
+            res.status(status).json({
+              message: message
+            });
+          case 13:
           case "end":
             return _context8.stop();
         }
       }
-    }, _callee8);
+    }, _callee8, null, [[0, 7]]);
   }));
   return function (_x15, _x16) {
     return _ref8.apply(this, arguments);
   };
 }());
-app.get("/mensajes-desnormalizados", /*#__PURE__*/function () {
+app.get("/mensajes-desnormalizados", _logger2["default"], /*#__PURE__*/function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee9(req, res) {
-    var data;
+    var data, status, message;
     return _regeneratorRuntime().wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.next = 2;
+            _context9.prev = 0;
+            _context9.next = 3;
             return (0, _normalizado.desnormalizar)();
-          case 2:
+          case 3:
             data = _context9.sent;
             res.json({
               data: data
             });
-          case 4:
+            _context9.next = 13;
+            break;
+          case 7:
+            _context9.prev = 7;
+            _context9.t0 = _context9["catch"](0);
+            status = _context9.t0.status || 500;
+            message = _context9.t0.message || "internal server error";
+            _logger["default"].error(message);
+            res.status(status).json({
+              message: message
+            });
+          case 13:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9);
+    }, _callee9, null, [[0, 7]]);
   }));
   return function (_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
 }());
-app.get("/info", function (req, res) {
+app.get("/info", _logger2["default"], function (req, res) {
   var directorio = process.cwd();
   var idProcesoActual = process.pid;
   var versionNode = process.version;
@@ -464,7 +523,7 @@ app.get("/info", function (req, res) {
     memoriaTotal: memory
   });
 });
-app.get('/slow', function (req, res) {
+app.get('/slow', _logger2["default"], function (req, res) {
   console.log("PID= ".concat(process.pid));
   var sum = 0;
   for (var i = 0; i < 15006500445; i++) {
@@ -473,6 +532,12 @@ app.get('/slow', function (req, res) {
   res.json({
     pid: process.pid,
     sum: sum
+  });
+});
+app.get('/*', _logger2["default"], function (req, res) {
+  _logger["default"].warn("Ruta no encontrada :c");
+  res.json({
+    msg: "Esta ruta no existe :c"
   });
 });
 var myServer = _http["default"].Server(app);

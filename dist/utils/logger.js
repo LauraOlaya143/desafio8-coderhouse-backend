@@ -15,7 +15,7 @@ var logConfiguration = {
     level: 'error'
   }), new _winston["default"].transports.File({
     filename: './logs/warn.log',
-    leve: "warn"
+    level: "warn"
   })]
 };
 var logger = _winston["default"].createLogger(logConfiguration);

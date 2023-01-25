@@ -8,6 +8,7 @@ var _express = require("express");
 var _child_process = require("child_process");
 var _path = _interopRequireDefault(require("path"));
 var _minimist = _interopRequireDefault(require("minimist"));
+var _logger = _interopRequireDefault(require("../middlewares/logger.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var direccion = _path["default"].resolve(__dirname, '../utils/calculo.js');
 var objetoConfiguracion = {
@@ -23,7 +24,7 @@ var objetoConfiguracion = {
 var args = (0, _minimist["default"])(process.argv, objetoConfiguracion);
 var puerto = args.port;
 var rutaRandom = (0, _express.Router)();
-rutaRandom.get('/', function (req, res) {
+rutaRandom.get('/', _logger["default"], function (req, res) {
   var cant = req.query.cant;
   var cantidad = parseFloat(cant);
   var computo = (0, _child_process.fork)(direccion, [cantidad]);
