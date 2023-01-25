@@ -10,26 +10,28 @@ import os from "os";
 
 const numCPUs = os.cpus().length;
 
-const objetoConfiguracion = {
-    alias: {
-        p: "port",
-        m: "modo"
-    },
-    default: {
-        port: 8080,
-        modo: "FOLK"
-    }
-}
+// const objetoConfiguracion = {
+//     alias: {
+//         p: "port",
+//         m: "modo"
+//     },
+//     default: {
+//         port: 8080,
+//         modo: "FOLK"
+//     }
+// }
 
-const args = minimist(process.argv, objetoConfiguracion);
+// const args = minimist(process.argv, objetoConfiguracion);
 
-const puerto = args.port;
-const modo = args.modo
+// const puerto = args.port;
+// const modo = args.modo
+
+const PORT = process.env.PORT || 8080;
 
 const init = async () => {
     await initConnection();
 
-    server.listen(puerto, () => {
+    server.listen(PORT, () => {
     console.log(`servidor listo, puerto: ${puerto}`)
 })
 }
