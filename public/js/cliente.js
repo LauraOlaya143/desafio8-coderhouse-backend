@@ -66,6 +66,8 @@ const formProductos = document.getElementById("formProductos")
 const title = document.getElementById("title")
 const price = document.getElementById("price")
 const thumbnail = document.getElementById("thumbnail")
+const descripcion = document.getElementById("descripcion")
+const stock = document.getElementById("stock")
 
 const tableContent = document.getElementById("tableContent")
 
@@ -75,7 +77,9 @@ formProductos?.addEventListener("submit", (event) => {
     const cartaServer = {
         title: title.value,
         price: price.value,
-        thumbnail : thumbnail.value
+        thumbnail : thumbnail.value,
+        descripcion: descripcion.value,
+        stock: stock.value
     }   
     
     console.log(cartaServer);
@@ -85,6 +89,8 @@ formProductos?.addEventListener("submit", (event) => {
     title.value = "";
     price.value = "";
     thumbnail.value = "";
+    descripcion.value = "";
+    stock.value = "";
 })
 
 socket.on("crearNuevoProducto", (data) => {
@@ -93,7 +99,7 @@ socket.on("crearNuevoProducto", (data) => {
 
     const trProduct = document.createElement("tr");
     const tdId = document.createElement("td");
-    tdId.innerText = newData.id;
+    tdId.innerText = newData._id;
 
     const tdTitle = document.createElement("td");
     tdTitle.innerText = newData.title;
