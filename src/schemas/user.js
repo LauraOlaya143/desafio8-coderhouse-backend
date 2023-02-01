@@ -7,6 +7,10 @@ const usuariosSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true},
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true},
+    direccion: {type: String},
+    edad: {type: Number},
+    numero: {type: Number},
+    foto: {type: String},
     admin: { type: Boolean, default: false}
 })
 
