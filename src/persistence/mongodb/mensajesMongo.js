@@ -1,4 +1,4 @@
-import {MensajesModel} from "../schemas/mensajes.js"
+import {MensajesModel} from "./schemas/mensajes.js"
 
 class ClientMongo {
     async getAllMensajes() {

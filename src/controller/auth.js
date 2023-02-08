@@ -1,7 +1,7 @@
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { usuariosModel } from '../schemas/user.js';
-import { transporter, emailOptions } from "./emailService.js";
+import { usuariosModel } from '../persistence/mongodb/schemas/user.js';
+import { transporter, emailOptions } from "../services/emailService.js";
 
 const strategyOptions = {
   usernameField: 'username',

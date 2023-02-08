@@ -16,4 +16,5 @@ rutaPrincipal.use("/productos-test", productosTest)
 rutaPrincipal.use("/user", rutaUsuarios)
 
 rutaPrincipal.use("/randoms", rutaRandom)
+
 export default rutaPrincipal;

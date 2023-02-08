@@ -4,18 +4,18 @@ import { initWsServer } from "./socket"
 import rutaPrincipal from "../routes/index"
 import { engine } from 'express-handlebars'
 import path from "path"
-import { ProductosController } from "../controller/productos"
-import { messageController } from "../controller/mensajes"
+import { ProductosController } from "./productosService"
+import { messageController } from "./mensajesService"
 import morgan from "morgan";
 import {faker} from "@faker-js/faker"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
-import { normalizado, desnormalizar } from "../controller/normalizado.js"
+import { normalizado, desnormalizar } from "../utils/normalizado.js"
 import cookieParser from "cookie-parser"
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import passport from "passport";
-import {loginFunc, signUpFunc} from "../services/auth.js"
+import {loginFunc, signUpFunc} from "../controller/auth.js"
 import compression from 'compression';
 
 import logger from "../utils/logger.js"

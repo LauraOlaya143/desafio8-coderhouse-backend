@@ -1,4 +1,4 @@
-import {CarritoModel} from "../schemas/carrito.js"
+import {CarritoModel} from "./schemas/carrito.js"
 
 class ClientMongo {
     async getAllCarrito() {

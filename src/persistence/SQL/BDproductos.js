@@ -1,5 +1,5 @@
 import knex from "knex";
-import { options } from "../options/mariaDB"
+import { options } from "../../options/mariaDB"
 
 class ClientSql {
     constructor(config) {

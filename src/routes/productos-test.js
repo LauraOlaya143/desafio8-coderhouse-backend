@@ -1,5 +1,4 @@
 import { Router } from "express"
-import admin from "../middlewares/auth"
 import {faker} from "@faker-js/faker"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';

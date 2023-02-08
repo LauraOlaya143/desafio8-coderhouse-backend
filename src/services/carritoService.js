@@ -1,7 +1,7 @@
 import createError from "http-errors"
 import fs from "fs/promises"
 import path from "path"
-import {MongoCarritoController} from "../controller/carritoMongo.js"
+import {MongoCarritoController} from "../persistence/mongodb/carritoMongo.js"
 
 const filePath = path.resolve(__dirname, '../../carritos.json');
 
@@ -227,8 +227,8 @@ class CarritoAPI {
     }
 }
 
-const carritoController = new CarritoAPI(filePath);
+const carritoServices = new CarritoAPI(filePath);
 
 export {
-    carritoController
+    carritoServices
 }

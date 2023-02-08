@@ -1,6 +1,6 @@
 import "dotenv/config"
 import server from "./services/server"
-import {initConnection} from "./db/database.js"
+import {initConnection} from "./persistence/mongodb/db/database.js"
 import minimist from 'minimist';
 import cluster from "cluster";
 import os from "os";

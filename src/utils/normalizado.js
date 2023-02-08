@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import {MongoMensajesController} from "./mensajesMongo.js"
+import {MongoMensajesController} from "../persistence/mongodb/mensajesMongo.js"
 import { normalize, schema, denormalize  } from 'normalizr';
 
 const filePath = path.resolve(__dirname, '../../data/mensajes.json');

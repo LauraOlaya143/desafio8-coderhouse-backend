@@ -3,8 +3,8 @@ import fs from "fs/promises"
 import path from "path"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
-import { sql } from "./BDproductos"
-import { MongoProductosController } from "./productosMongo.js"
+import { sql } from "../persistence/SQL/BDproductos"
+import { MongoProductosController } from "../persistence/mongodb/productosMongo.js"
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 

@@ -1,4 +1,4 @@
-import {ProductsModel} from "../schemas/productos.js"
+import {ProductsModel} from "./schemas/productos.js"
 
 class ClientMongo {
     async getAllProducts() {
