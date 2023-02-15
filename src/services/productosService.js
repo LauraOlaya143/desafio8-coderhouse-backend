@@ -3,8 +3,11 @@ import fs from "fs/promises"
 import path from "path"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
-import { sql } from "../persistence/SQL/BDproductos"
-import { MongoProductosController } from "../persistence/mongodb/productosMongo.js"
+import { sql } from "../persistence/daos/SQL/BDproductos.js"
+import { MongoProductosController } from "../persistence/daos/mongodb/productosMongo.js"
+import ProductosReposity from "../persistence/repository/productosRepository.js";
+
+const productsRepository = new ProductosReposity();
 
 const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -37,7 +40,8 @@ class ProductosAPI {
 
     async getAll() {
         //SQL: const productos = await sql.getAllProducts()
-        const productos = await MongoProductosController.getAllProducts()
+        // const productos = await MongoProductosController.getAllProducts()
+        const productos = await productsRepository.getAll()
         return productos
     }
 
@@ -47,7 +51,7 @@ class ProductosAPI {
 
         if(!existe) throw createError(404, 'producto no encontrado')
 
-        const indice = await MongoProductosController.getProductById(id)
+        const indice = await await productsRepository.getById(id)
         return indice
     }
 
@@ -84,7 +88,9 @@ class ProductosAPI {
         
         //SQL: const controller = await sql.insertProduct(product)
 
-        const controller = await MongoProductosController.createProduct(product)
+        // const controller = await MongoProductosController.createProduct(product)
+        
+        const controller = await productsRepository.saveProduct(product);
 
         return controller
 
@@ -125,8 +131,8 @@ class ProductosAPI {
             codigo,
             stock
         }
-        
-        const controller = await MongoProductosController.updateProduct(id, productoActualizado)
+
+        const controller = await productsRepository.updateProduct(id, productoActualizado)
 
         //SQL: const controller = await sql.updateProduct(intId, productoActualizado)
         
@@ -155,7 +161,7 @@ class ProductosAPI {
         const newData = JSON.stringify(arrayProductos, null, "\t")
         await fs.writeFile(filePath, newData) */
         
-        const controller = await MongoProductosController.deleteProduct(id)
+        const controller = await productsRepository.deleteProduct(id)
 
         return `eliminando el producto con el id: ${id}`
     }

@@ -1,5 +1,5 @@
 import knex from "knex";
-import { options } from "../../options/mariaDB"
+import { options } from "../../../options/mariaDB.js"
 
 class ClientSql {
     constructor(config) {
@@ -47,4 +47,4 @@ class ClientSql {
 
 const sql = new ClientSql(options);
 
-export {sql}
+export default sql

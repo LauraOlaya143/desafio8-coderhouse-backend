@@ -3,7 +3,7 @@
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 require("dotenv/config");
 var _server = _interopRequireDefault(require("./services/server"));
-var _database = require("./db/database.js");
+var _database = require("./persistence/daos/mongodb/db/database.js");
 var _minimist = _interopRequireDefault(require("minimist"));
 var _cluster = _interopRequireDefault(require("cluster"));
 var _os = _interopRequireDefault(require("os"));

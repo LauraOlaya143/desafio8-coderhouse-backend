@@ -22,7 +22,7 @@ var signUp = function signUp(req, res, next) {
 };
 exports.signUp = signUp;
 var login = function login(req, res) {
-  res.json({
+  res.cookie("password", req.body.password).json({
     msg: 'Bienvenido!',
     user: req.user
   });

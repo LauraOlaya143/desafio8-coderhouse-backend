@@ -1,8 +1,8 @@
 import createError from "http-errors"
 import fs from "fs/promises"
 import path from "path"
-import { sqlite } from "../persistence/SQL/BDmensajes"
-import {MongoMensajesController} from "../persistence/mongodb/mensajesMongo.js"
+import { sqlite } from "../persistence/daos/SQL/BDmensajes.js"
+import {MongoMensajesController} from "../persistence/daos/mongodb/mensajesMongo.js"
 
 const filePath = path.resolve(__dirname, '../../data/mensajes.json');
 

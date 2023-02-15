@@ -1,6 +1,6 @@
 import {ProductsModel} from "./schemas/productos.js"
 
-class ClientMongo {
+export default class ClientMongo {
     async getAllProducts() {
         const productos = await ProductsModel.find();
         return productos

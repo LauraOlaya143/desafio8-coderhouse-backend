@@ -11,18 +11,18 @@ var _socket = require("./socket");
 var _index = _interopRequireDefault(require("../routes/index"));
 var _expressHandlebars = require("express-handlebars");
 var _path = _interopRequireDefault(require("path"));
-var _productos = require("../controller/productos");
-var _mensajes = require("../controller/mensajes");
+var _productosService = require("./productosService");
+var _mensajesService = require("./mensajesService");
 var _morgan = _interopRequireDefault(require("morgan"));
 var _faker = require("@faker-js/faker");
 var _moment = _interopRequireDefault(require("moment"));
 var _uuid = require("uuid");
-var _normalizado = require("../controller/normalizado.js");
+var _normalizado = require("../utils/normalizado.js");
 var _cookieParser = _interopRequireDefault(require("cookie-parser"));
 var _expressSession = _interopRequireDefault(require("express-session"));
 var _connectMongo = _interopRequireDefault(require("connect-mongo"));
 var _passport = _interopRequireDefault(require("passport"));
-var _auth = require("../services/auth.js");
+var _auth = require("../controller/auth.js");
 var _compression = _interopRequireDefault(require("compression"));
 var _logger = _interopRequireDefault(require("../utils/logger.js"));
 var _logger2 = _interopRequireDefault(require("../middlewares/logger.js"));
@@ -101,7 +101,7 @@ app.post("/login", _logger2["default"], /*#__PURE__*/function () {
             });
             console.log(index);
             _context.next = 5;
-            return _productos.ProductosController.getAll();
+            return _productosService.ProductosController.getAll();
           case 5:
             data = _context.sent;
             cantidadObjetos = data.length;
@@ -211,35 +211,22 @@ app.get("/hola", _logger2["default"], function (req, res) {
 });
 app.get("/", _logger2["default"], /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(req, res) {
-    var data, cantidadObjetos, validarArray, respuesta, i;
+    var data, cantidadObjetos, validarArray;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.next = 2;
-            return _productos.ProductosController.getAll();
+            return _productosService.ProductosController.getAll();
           case 2:
             data = _context3.sent;
             cantidadObjetos = data.length;
             validarArray = cantidadObjetos > 0 ? true : false;
-            respuesta = [];
-            for (i = 0; i < data.length; i++) {
-              respuesta.push({
-                id: data[i]._id,
-                title: data[i].title,
-                price: data[i].price,
-                thumbnail: data[i].thumbnail,
-                timestamp: data[i].timestamp,
-                descripcion: data[i].descripcion,
-                codigo: data[i].codigo,
-                stock: data[i].stock
-              });
-            }
             res.render("main", {
-              productos: respuesta,
+              productos: data,
               cantidad: validarArray
             });
-          case 8:
+          case 6:
           case "end":
             return _context3.stop();
         }
@@ -252,35 +239,22 @@ app.get("/", _logger2["default"], /*#__PURE__*/function () {
 }());
 app.get("/productos", _logger2["default"], /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(req, res) {
-    var data, respuesta, i, cantidadObjetos, validarArray;
+    var data, cantidadObjetos, validarArray;
     return _regeneratorRuntime().wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return _productos.ProductosController.getAll();
+            return _productosService.ProductosController.getAll();
           case 2:
             data = _context4.sent;
-            respuesta = [];
-            for (i = 0; i < data.length; i++) {
-              respuesta.push({
-                id: data[i]._id,
-                title: data[i].title,
-                price: data[i].price,
-                thumbnail: data[i].thumbnail,
-                timestamp: data[i].timestamp,
-                descripcion: data[i].descripcion,
-                codigo: data[i].codigo,
-                stock: data[i].stock
-              });
-            }
             cantidadObjetos = data.length;
             validarArray = cantidadObjetos > 0 ? true : false;
             res.render("showProducts", {
-              productos: respuesta,
+              productos: data,
               cantidad: validarArray
             });
-          case 8:
+          case 6:
           case "end":
             return _context4.stop();
         }
@@ -353,7 +327,7 @@ app.get("/mensajes", _logger2["default"], /*#__PURE__*/function () {
           case 0:
             _context6.prev = 0;
             _context6.next = 3;
-            return _mensajes.messageController.getAll();
+            return _mensajesService.messageController.getAll();
           case 3:
             controller = _context6.sent;
             res.json({
@@ -404,7 +378,7 @@ app.post("/mensajes", _logger2["default"], /*#__PURE__*/function () {
               text: text
             };
             _context7.next = 7;
-            return _mensajes.messageController.saveNewMessage(newMensaje);
+            return _mensajesService.messageController.saveNewMessage(newMensaje);
           case 7:
             controller = _context7.sent;
             res.json({

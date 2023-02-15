@@ -1,6 +1,6 @@
 import { carritoServices } from "../services/carritoService"
 import { ProductosController } from "../services/productosService"
-import { usuariosModel } from '../persistence/mongodb/schemas/user.js';
+import { usuariosModel } from '../persistence/daos/mongodb/schemas/user.js';
 import { twilioClient } from "../services/smsService.js";
 
 export const newCar = async (req, res) =>{

@@ -22,6 +22,9 @@ var isLoggedIn = function isLoggedIn(req, res, next) {
 };
 rutaUsuarios.post('/signup', _logger["default"], _userController.signUp);
 rutaUsuarios.post('/login', _logger["default"], _passport["default"].authenticate('login', passportOptions), _userController.login);
+
+// rutaUsuarios.post("/logout", info, )
+
 rutaUsuarios.get('/home', _logger["default"], isLoggedIn, _userController.getHome);
 var _default = rutaUsuarios;
 exports["default"] = _default;

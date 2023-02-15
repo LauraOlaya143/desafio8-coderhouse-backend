@@ -33,3 +33,8 @@
 {"level":"warn","message":"Ruta no encontrada :c"}
 {"level":"warn","message":"Ruta no encontrada :c"}
 {"level":"warn","message":"Ruta no encontrada :c"}
+{"level":"error","message":"campos invalidos"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'getAll')"}
+{"level":"error","message":"this.dao.getAll is not a function"}
+{"level":"warn","message":"Ruta no encontrada :c"}
+{"level":"error","message":"productsRepository.getAllDto is not a function"}

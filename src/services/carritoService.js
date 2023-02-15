@@ -1,7 +1,7 @@
 import createError from "http-errors"
 import fs from "fs/promises"
 import path from "path"
-import {MongoCarritoController} from "../persistence/mongodb/carritoMongo.js"
+import {MongoCarritoController} from "../persistence/daos/mongodb/carritoMongo.js"
 
 const filePath = path.resolve(__dirname, '../../carritos.json');
 

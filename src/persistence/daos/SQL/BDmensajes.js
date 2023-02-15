@@ -1,5 +1,5 @@
 import knex from "knex";
-import { options } from "../../options/mariaDB";
+import { options } from "../../../options/mariaDB.js";
 
 class ClientSqlite {
     constructor(config) {
