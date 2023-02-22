@@ -68,7 +68,7 @@ var getProductById = /*#__PURE__*/function () {
             1;
             res.json({
               msg: "id del productos: ".concat(id),
-              msg2: product
+              data: product
             });
             _context2.next = 15;
             break;

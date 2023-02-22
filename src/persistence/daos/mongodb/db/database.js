@@ -1,6 +1,9 @@
 import mongoose from 'mongoose';
+const dotenv = require("dotenv");
 
-const connection = process.env.MONGO_ATLAS || "mongodb://localhost:27017/coderhouse" 
+dotenv.config();
+// || "mongodb://localhost:27017/coderhouse" 
+const connection = process.env.MONGO_ATLAS 
 
 const initConnection = async () => {
     try {

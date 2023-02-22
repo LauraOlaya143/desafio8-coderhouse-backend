@@ -1,17 +1,18 @@
 import "dotenv/config"
-import server from "./services/server"
+import {myServer} from "./services/server"
 import {initConnection} from "./persistence/daos/mongodb/db/database.js"
 import minimist from 'minimist';
 import cluster from "cluster";
 import os from "os";
+import logger from "./utils/logger.js"
 
 const PORT = process.env.PORT || 8080;
 
 const init = async () => {
         await initConnection();
     
-        server.listen(PORT, () => {
-        console.log(`servidor listo, puerto: ${PORT}`)
+        myServer.listen(PORT, () => {
+        logger.info(`servidor listo, puerto: ${PORT}`)
     })
 }
 

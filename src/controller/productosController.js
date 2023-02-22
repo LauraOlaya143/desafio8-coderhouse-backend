@@ -34,7 +34,7 @@ export const getProductById = async (req, res) => {
 
         res.json({
             msg: `id del productos: ${id}`,
-            msg2: product
+            data: product
         })
     } catch (err) {
         const status = err.status || 500;

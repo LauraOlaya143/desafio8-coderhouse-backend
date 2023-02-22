@@ -4,7 +4,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.myServer = exports.app = void 0;
 var _express = _interopRequireWildcard(require("express"));
 var _http = _interopRequireDefault(require("http"));
 var _socket = require("./socket");
@@ -38,6 +38,7 @@ var layoutsFolderPath = "".concat(viewsFolderPath, "/layouts");
 var layoutPorDefecto = "".concat(layoutsFolderPath, "/index.hbs");
 var partialsFolderPath = "".concat(viewsFolderPath, "/partials");
 var app = (0, _express["default"])();
+exports.app = app;
 app.use(_express["default"].json());
 app.use(_express["default"].urlencoded({
   extended: true
@@ -515,6 +516,5 @@ app.get('/*', _logger2["default"], function (req, res) {
   });
 });
 var myServer = _http["default"].Server(app);
+exports.myServer = myServer;
 (0, _socket.initWsServer)(myServer);
-var _default = myServer;
-exports["default"] = _default;

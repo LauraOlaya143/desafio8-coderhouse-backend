@@ -390,4 +390,4 @@ const myServer = http.Server(app)
 
 initWsServer(myServer)
 
-export default myServer;
+export {myServer, app}
