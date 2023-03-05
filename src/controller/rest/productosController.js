@@ -1,8 +1,8 @@
 // import fs from "fs/promises"
 import path from "path"
-import { ProductosController } from "../services/productosService"
+import { ProductosController } from "../../services/rest/productosService.js"
 // import { sql } from "../controller/BDproductos"
-import logger from "../utils/logger.js"
+import logger from "../../utils/logger.js"
 
 // const filePath = path.resolve(__dirname, '../../productos.json');
 
@@ -97,7 +97,6 @@ export const newProducto = async (req, res) => {
     const dataController = await ProductosController.saveNewProduct(nuevoProducto)
 
     res.json({
-        msg: `Se agrego el producto`,
         data: dataController
     })
 }
@@ -130,7 +129,6 @@ export const editarProducto = async (req, res) => {
     const DataActualizada = await ProductosController.updateById(id, productoActualizado)
 
     res.json({
-        msg: `actualizando el producto con el id: ${id}`,
         data: DataActualizada,
     })
     }catch (err) {

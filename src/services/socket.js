@@ -1,7 +1,7 @@
 import io from "socket.io"
 import { messageController } from "./mensajesService"
 import moment from "moment"
-import { ProductosController } from "./productosService"
+import { ProductosController } from "./rest/productosService.js"
 
 let myWebSocketServer;
 

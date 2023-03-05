@@ -3,9 +3,9 @@ import fs from "fs/promises"
 import path from "path"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
-import { sql } from "../persistence/daos/SQL/BDproductos.js"
-import { MongoProductosController } from "../persistence/daos/mongodb/productosMongo.js"
-import ProductosReposity from "../persistence/repository/productosRepository.js";
+import { sql } from "../../persistence/daos/SQL/BDproductos.js"
+import { MongoProductosController } from "../../persistence/daos/mongodb/productosMongo.js"
+import ProductosReposity from "../../persistence/repository/productosRepository.js";
 
 const productsRepository = new ProductosReposity();
 
@@ -212,6 +212,62 @@ class ProductosAPI {
         return "stock eliminado"
     }
 }
+
+export const crearProducto = async(obj) => {
+    const {title, price, thumbnail, descripcion, stock} = obj
+
+    const time = moment().format("DD-MM-YYYY HH:MM:SS")
+    const newCodigo = uuidv4();
+
+    const product = {
+        title,
+        price,
+        thumbnail,
+        timestamp : time,
+        descripcion,
+        codigo: newCodigo,
+        stock
+    }
+
+    const controller = await productsRepository.saveProduct(product);
+
+    return controller
+};
+
+export const getAllProducts = async() => {
+    const productos = await productsRepository.getAll()
+    return productos
+};
+
+export const getProductById = async(id) =>{
+    const indice = await await productsRepository.getById(id)
+    return indice
+};
+
+export const editarProducto = async(id, body) =>{
+    const product = await MongoProductosController.getProductById(id)
+
+    const {title, price, thumbnail, descripcion, stock} = body
+    const {timestamp, codigo} = product
+
+        const productoActualizado = {
+            title,
+            price,
+            thumbnail,
+            timestamp,
+            descripcion,
+            codigo,
+            stock
+        }
+
+    const producto = await productsRepository.updateProduct(id, productoActualizado)
+    return producto;
+};
+
+export const eliminarProducto = async(id) =>{
+    const controller = await productsRepository.deleteProduct(id)
+    return `eliminando el producto con el id: ${id}`
+};
 
 const ProductosController = new ProductosAPI(filePath);
 

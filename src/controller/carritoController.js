@@ -1,5 +1,5 @@
 import { carritoServices } from "../services/carritoService"
-import { ProductosController } from "../services/productosService"
+import { ProductosController } from "../services/rest/productosService.js"
 import { usuariosModel } from '../persistence/daos/mongodb/schemas/user.js';
 import { twilioClient } from "../services/smsService.js";
 

@@ -4,7 +4,7 @@ import { initWsServer } from "./socket"
 import rutaPrincipal from "../routes/index"
 import { engine } from 'express-handlebars'
 import path from "path"
-import { ProductosController } from "./productosService"
+import { ProductosController } from "./rest/productosService.js"
 import { messageController } from "./mensajesService"
 import morgan from "morgan";
 import {faker} from "@faker-js/faker"
@@ -20,6 +20,11 @@ import compression from 'compression';
 
 import logger from "../utils/logger.js"
 import info from "../middlewares/logger.js"
+
+// graphql
+
+import { graphqlHTTP } from "express-graphql"
+import {graphqlRoot, graphqlSchema} from "./graphql/productosService.js"
 
 faker.locale = "es"
 
@@ -94,6 +99,12 @@ const users = [
         admin: false,
     }
 ]
+
+app.use("/graphql", graphqlHTTP({
+    schema: graphqlSchema,
+    rootValue: graphqlRoot,
+    graphiql: true
+}))
 
 app.post("/login",info, async (req, res) => {
     const { username, password } = req.body;

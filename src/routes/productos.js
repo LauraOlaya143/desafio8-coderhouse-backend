@@ -2,7 +2,7 @@ import { Router } from "express"
 import path from "path"
 import admin from "../middlewares/auth"
 import info from "../middlewares/logger.js"
-import * as Productos from "../controller/productosController.js"
+import * as Productos from "../controller/rest/productosController.js"
 
 const rutaProductos = Router();
 
