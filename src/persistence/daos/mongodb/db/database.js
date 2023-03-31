@@ -1,28 +1,28 @@
 import mongoose from 'mongoose';
-const dotenv = require("dotenv");
-
+import logger from "../../../../utils/logger.js"
+import dotenv from 'dotenv';
 dotenv.config();
 // || "mongodb://localhost:27017/coderhouse" 
 const connection = process.env.MONGO_ATLAS 
 
 const initConnection = async () => {
     try {
-        console.log("Conectando...");
+        logger.info("Conectando...");
         await mongoose.connect(connection);
-        console.log("Se conecto con exito :)")
+        logger.info("Se conecto con exito :)")
     } catch (error) {
-        console.log(`ERROR => ${error}`);
+        logger.info(`ERROR => ${error}`);
         return error
     }
 }
 
 const initDesconnection = async () => {
     try {
-        console.log("Desconectando...");
+        logger.info("Desconectando...");
         await mongoose.disconnect();
-        console.log("Se desconecto con exito :)")
+        logger.info("Se desconecto con exito :)")
     } catch (error) {
-        console.log(`ERROR => ${error}`);
+        logger.info(`ERROR => ${error}`);
         return error
     }
 }

@@ -1,6 +1,6 @@
 import { Router } from "express"
 import info from "../middlewares/logger.js"
-import * as Carrito from "../controller/carritoController.js"
+import * as Carrito from "../controller/rest/carritoController.js"
 
 const rutaCarrito = Router();
 

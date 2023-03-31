@@ -12,7 +12,7 @@ const user = new schema.Entity("users", {}, {
 
 const msg = new schema.Entity("mensajes", {
     author: user
-},{idAttribute: "_id"})
+},{idAttribute: "id"})
 
 const finalSchema = [msg];
 

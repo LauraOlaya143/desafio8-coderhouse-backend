@@ -39,6 +39,7 @@ var init = /*#__PURE__*/function () {
 init();
 
 //parametros a pasar que el servidor se ejecute en modo FOLK o CLUSTER
+
 // Folk: FOLK // Cluster: CLUSTER
 
 // const numCPUs = os.cpus().length;

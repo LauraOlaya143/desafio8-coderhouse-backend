@@ -1,9 +1,9 @@
 import ProductsDTO, { asDto } from '../dto/productos-dto.js';
-import {getDao} from "../daos/factory.js"
+import {getDaoProductos} from "../daos/factory.js"
 
 export default class ProductosReposity {
     constructor() {
-        this.dao = getDao();
+        this.dao = getDaoProductos();
     }
 
     async getAll() {
@@ -14,17 +14,20 @@ export default class ProductosReposity {
 
     async getById(id) {
         const producto = await this.dao.getProductById(id);
-        return producto;
+        const productoDTO = asDto(producto);
+        return productoDTO;
     }
 
     async saveProduct(product) {
         const controller = await this.dao.createProduct(product);
-        return controller
+        const controllerDTO = asDto(controller);
+        return controllerDTO
     }
 
     async updateProduct(id, newProduct) {
         const controller = await this.dao.updateProduct(id, newProduct)
-        return controller
+        const controllerDTO = asDto(controller);
+        return controllerDTO
     }
 
     async deleteProduct(id) {

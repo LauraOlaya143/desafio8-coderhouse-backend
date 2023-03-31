@@ -21,7 +21,7 @@ var user = new _normalizr.schema.Entity("users", {}, {
 var msg = new _normalizr.schema.Entity("mensajes", {
   author: user
 }, {
-  idAttribute: "_id"
+  idAttribute: "id"
 });
 var finalSchema = [msg];
 var normalizado = /*#__PURE__*/function () {

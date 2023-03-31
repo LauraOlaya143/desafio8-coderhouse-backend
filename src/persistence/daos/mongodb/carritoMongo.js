@@ -1,6 +1,6 @@
 import {CarritoModel} from "./schemas/carrito.js"
 
-class ClientMongo {
+export default class ClientMongoCarritos {
     async getAllCarrito() {
         const carritos = await CarritoModel.find();
         return carritos
@@ -15,7 +15,8 @@ class ClientMongo {
         return carrito
     }
 
-    async createNewCarrito (array){
+    async createCar () {
+        const array = []
         const newCarrito = await CarritoModel.create({products: array})
 
         return newCarrito
@@ -42,7 +43,7 @@ class ClientMongo {
     }
 }
 
-const MongoCarritoController = new ClientMongo();
+const MongoCarritoController = new ClientMongoCarritos();
 
 export {
     MongoCarritoController

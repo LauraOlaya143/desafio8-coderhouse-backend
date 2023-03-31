@@ -18,7 +18,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 var ProductosReposity = /*#__PURE__*/function () {
   function ProductosReposity() {
     _classCallCheck(this, ProductosReposity);
-    this.dao = (0, _factory.getDao)();
+    this.dao = (0, _factory.getDaoProductos)();
   }
   _createClass(ProductosReposity, [{
     key: "getAll",
@@ -51,7 +51,7 @@ var ProductosReposity = /*#__PURE__*/function () {
     key: "getById",
     value: function () {
       var _getById = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
-        var producto;
+        var producto, productoDTO;
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -60,8 +60,9 @@ var ProductosReposity = /*#__PURE__*/function () {
                 return this.dao.getProductById(id);
               case 2:
                 producto = _context2.sent;
-                return _context2.abrupt("return", producto);
-              case 4:
+                productoDTO = (0, _productosDto.asDto)(producto);
+                return _context2.abrupt("return", productoDTO);
+              case 5:
               case "end":
                 return _context2.stop();
             }
@@ -77,7 +78,7 @@ var ProductosReposity = /*#__PURE__*/function () {
     key: "saveProduct",
     value: function () {
       var _saveProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(product) {
-        var controller;
+        var controller, controllerDTO;
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -86,8 +87,9 @@ var ProductosReposity = /*#__PURE__*/function () {
                 return this.dao.createProduct(product);
               case 2:
                 controller = _context3.sent;
-                return _context3.abrupt("return", controller);
-              case 4:
+                controllerDTO = (0, _productosDto.asDto)(controller);
+                return _context3.abrupt("return", controllerDTO);
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -103,7 +105,7 @@ var ProductosReposity = /*#__PURE__*/function () {
     key: "updateProduct",
     value: function () {
       var _updateProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id, newProduct) {
-        var controller;
+        var controller, controllerDTO;
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -112,8 +114,9 @@ var ProductosReposity = /*#__PURE__*/function () {
                 return this.dao.updateProduct(id, newProduct);
               case 2:
                 controller = _context4.sent;
-                return _context4.abrupt("return", controller);
-              case 4:
+                controllerDTO = (0, _productosDto.asDto)(controller);
+                return _context4.abrupt("return", controllerDTO);
+              case 5:
               case "end":
                 return _context4.stop();
             }

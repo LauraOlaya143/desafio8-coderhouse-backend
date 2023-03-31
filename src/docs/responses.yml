@@ -1,0 +1,314 @@
+components:
+  schemas:
+    Productos: #TAG, indicando una entidad
+      getAll:
+        type: array
+        items:
+          propierties:
+            id:
+              type: string
+              descripcion: id del producto en la base de datos
+            title:
+              type: string
+              description: titulo del producto
+            price:
+              type: number
+              description: precio del producto
+            thumbnail:
+              type: string
+              description: imagen del producto
+            timestamp:
+              type: string
+              escription: fecha de creacion del producto
+            descripcion:
+              type: string
+              description: descripcion del producto
+            codigo:
+              type: string
+              description: codigo del producto
+            stock:
+              type: number
+              descripcion: stock disponible del producto
+        example:
+            id: 6387619904a1cb77f4711482
+            title: Monster High Doll
+            price: 25
+            thumbnail: https://i.pinimg.com/550x/4d/61/af/4d61afabd1395a73f457ac6e62a4a46d.jpg
+            timestamp: 11-11-2022 11:11:14
+            descripcion: Muñeca Monster High del año 2022
+            codigo: WDy7tiGS
+            stock: 50
+      NotFound:
+        type: string
+        description: error en el servidor
+      producto:
+        type: object
+        properties:
+          id:
+            type: string
+            descripcion: id del producto en la base de datos
+          title:
+            type: string
+            description: titulo del producto
+          price:
+            type: number
+            description: precio del producto
+          thumbnail:
+            type: string
+            description: imagen del producto
+          timestamp:
+            type: string
+            description: fecha de creacion del producto
+          descripcion:
+            type: string
+            description: descripcion del producto
+          codigo:
+            type: string
+            description: codigo del producto
+          stock:
+            type: number
+            descripcion: stock disponible del producto
+        example:
+          id: 6387619904a1cb77f4711482
+          title: Monster High Doll
+          price: 25
+          thumbnail: https://i.pinimg.com/550x/4d/61/af/4d61afabd1395a73f457ac6e62a4a46d.jpg
+          timestamp: 11-11-2022 11:11:14
+          descripcion: Muñeca Monster High del año 2022
+          codigo: WDy7tiGS
+          stock: 50
+      errorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontro un producto con ese id
+        example:
+          message: Producto no encontrado :c
+      productoEliminado:
+        type: object
+        properties:
+          message:
+            type: string
+            description: se elimino el producto con ese id
+        example:
+          message: Se elimino el producto con el id 6425bc16aef4a9253ff5b758
+    Carritos:
+      newCarrito:
+        type: object
+        properties:
+          id:
+            type: string
+            description: id del carrito
+          productos:
+            type: array
+            items: {}
+            description: array de carritos, inicializado vacio
+        example:
+          id: 6425cd6d7129189c46ac41bb
+          products: []
+      getCarrito:
+        type: object
+        properties:
+          msg: 
+            type: string
+            description: informacion del metodo que se uso
+            example: Productos agregados al carrito con el id 63878aca82e990cfebb3a7c5
+          data:
+            type: array
+            items:
+              propierties:
+                id:
+                  type: string
+                  descripcion: id del producto en la base de datos
+                title:
+                  type: string
+                  description: titulo del producto
+                price:
+                  type: number
+                  description: precio del producto
+                thumbnail:
+                  type: string
+                  description: imagen del producto
+                descripcion:
+                  type: string
+                  description: descripcion del producto
+                codigo:
+                  type: string
+                  description: codigo del producto
+                cantidad:
+                  type: number
+                  description: cantidad del producto la cual se agrego al carrito
+            example:
+              title: Frankie doll
+              price: 35
+              thumbnail: http://cdn.shopify.com/s/files/1/0600/0141/9429/products/gkj5i5zfbb28poau3iej_61b9663c-bc02-4a61-ad4e-e3f1585a178e.jpg?v=1669141621
+              id: 6387729e1df954aed8d05d87
+              descripcion: Muñeca monster high hija de frankenstein
+              codigo: e219d0be-0365-4691-a242-ab2baf7d952e
+              cantidad: 1
+      errorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontro un carrito con ese id
+      NotFound:
+        type: string
+        description: error en el servidor
+      productoEliminado:
+        type: object
+        properties:
+          message:
+            type: string
+            description: se elimino el producto con ese id
+        example:
+          message: Se elimino el producto con el id 6425bc16aef4a9253ff5b758
+    Calculos:
+      calculo:
+        type: object
+        properties:
+          port:
+            type: number
+            description: Puerto en el cual esta alojado el servidor
+            example: 8080
+          resultado:
+            type: array
+            items:
+              propierties:
+                num:
+                  type: number
+                  description: numero el cual se repitio en la secuencia
+            example:
+              num: 1
+      NotFound:
+        type: string
+        description: error en el servidor
+    Mensajes:
+      NotFound:
+        type: string
+        description: error en el servidor
+      mensaje:
+        type: object
+        properties:
+          id:
+            type: string
+            description: id del mensaje
+            example: 642246f397913cf5294819af
+          author:
+            type: object
+            properties:
+              username:
+                type: string
+                description: nombre del usuario
+              email:
+                type: string
+                description: email del usuario
+              direccion:
+                type: string
+                description: direccion del usuario
+              foto:
+                tyoe: string
+                description: foto de perfil del usuario
+            example:
+              username: lau14
+              email: laura14@gmail.com
+              direccion: mila4
+              foto: https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2642ea-5bf4-4c5f-8710-f464bc4c06d3/dex6jku-af7fc050-698b-4a42-a685-2113397a3ac2.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjMjY0MmVhLTViZjQtNGM1Zi04NzEwLWY0NjRiYzRjMDZkM1wvZGV4NmprdS1hZjdmYzA1MC02OThiLTRhNDItYTY4NS0yMTEzMzk3YTNhYzIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.QtEgEZAy4d6M7YpHyZZ4K_qqFIyzpgTAZdipbNFjwac
+          text:
+            type: string
+            description: comentario o mensaje que envio el autor
+            example: Hola
+          time:
+            type: string
+            description: Fecha de la creacion del mensaje
+            example: 27-03-2023 20:03:64
+    InfoProcess:
+      informacion:
+        type: object
+        properties:
+          msg:
+            type: string
+            example: datos...
+          directorio:
+            type: string
+            example: C:\\Users\\Laura Sofia\\Desktop\\desafioClase8
+          idProcesoActual:
+            type: number
+            example: 20416
+          versionNode:
+            type: string
+            example: v18.12.1
+          nombreProceso:
+            type: string
+            example: C:\\Windows\\system32\\cmd.exe
+          sistemaOperativo:
+            type: string
+            example: win32
+          memoriaTotal:
+            type: string
+            example: \"rss\":190578688,\"heapTotal\":141991936,\"heapUsed\":131873632,\"external\":21160252,\"arrayBuffers\":18407145
+    InfoRoot:
+      informacion:
+        type: object
+        properties:
+          ruta:
+            type: string
+            description: ruta de la api
+          metodo:
+            type: string
+            description: Metodo usado por el usuario
+        example:
+          ruta: /infoRoot
+          metodo: GET
+      NotFound:
+        type: string
+        description: error en el servidor
+    mensajesNormalizados:
+      mensaje:
+        type: object
+        properties:
+          data:
+            type: array
+            items: {}
+            description: array de mensajes organizados
+      NotFound:
+        type: string
+        description: error en el servidor
+        example: error en el servidor
+    MensajesDesnormalizados:
+      mensaje:
+        type: object
+        properties:
+          id:
+            type: string
+            description: id del mensaje
+            example: 642246f397913cf5294819af
+          author:
+            type: object
+            properties:
+              username:
+                type: string
+                description: nombre del usuario
+              email:
+                type: string
+                description: email del usuario
+              direccion:
+                type: string
+                description: direccion del usuario
+              foto:
+                tyoe: string
+                description: foto de perfil del usuario
+            example:
+              username: lau14
+              email: laura14@gmail.com
+              direccion: mila4
+              foto: https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2642ea-5bf4-4c5f-8710-f464bc4c06d3/dex6jku-af7fc050-698b-4a42-a685-2113397a3ac2.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjMjY0MmVhLTViZjQtNGM1Zi04NzEwLWY0NjRiYzRjMDZkM1wvZGV4NmprdS1hZjdmYzA1MC02OThiLTRhNDItYTY4NS0yMTEzMzk3YTNhYzIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.QtEgEZAy4d6M7YpHyZZ4K_qqFIyzpgTAZdipbNFjwac
+          text:
+            type: string
+            description: comentario o mensaje que envio el autor
+            example: Hola
+          time:
+            type: string
+            description: Fecha de la creacion del mensaje
+            example: 27-03-2023 20:03:64

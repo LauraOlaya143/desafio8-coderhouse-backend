@@ -8,12 +8,19 @@ body {
     background-size: cover;
     
 }
-  
+
+#mensajes {
+    width: 50%;
+    height: 200px;
+    margin: 0 auto;
+    background-color: #ffe7f2;
+    overflow-y: scroll
+}
+
 ::selection {
     background-color: #ff86a0;
     color: #ffe7f2; 
 }
-
 
 .App {
     text-align: center;
@@ -35,8 +42,32 @@ body {
     margin-bottom: 20px;
     cursor: pointer;
     transition: all 0.5s;
-  }
-  
+}
+
+.button_detalle2 {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    color: rgb(255, 235, 235);
+    border:#862451 2px solid;
+    background-color: #862451;
+    border-radius: 5px;
+    padding: 6px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.button_detalle2:hover {
+    background-color: #ff75ba;
+    border: #ff75ba 2px solid;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
 .button_detalle:hover {
     background-color: #ff75ba;
     border: #ff75ba 2px solid;
@@ -136,7 +167,7 @@ body {
     justify-content: center;
     margin: 0 auto;
     margin-top: 20px;
-    width: 85%;
+    width: 400px;
 }
 
 .tittleMensaje {
@@ -154,9 +185,22 @@ body {
 }
 
 .mensajeTexto {
+    width: 500px;
     text-align: justify;
 }
 
 .texto {
-    max-width: 300px;
+    word-break:break-all;
+}
+
+.footer{
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 15px;
+    color:#ffe7f2;
+    background-color: #862451;
+}
+
+.footer p {
+    margin: 0 auto;
 }

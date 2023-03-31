@@ -1,39 +1,9 @@
 import { Router } from "express"
-import { fork } from 'child_process';
-import path from 'path'
-import minimist from 'minimist';
 import info from "../middlewares/logger.js"
-
-const direccion = path.resolve(__dirname, '../utils/calculo.js');
-
-const objetoConfiguracion = {
-    alias: {
-        p: "port",
-        m: "modo"
-    },
-    default: {
-        port: 8080,
-        modo: "FOLK"
-    }
-}
-
-const args = minimist(process.argv, objetoConfiguracion);
-
-const puerto = args.port;
+import {getRandoms} from "../controller/rest/randomsController.js"
 
 const rutaRandom = Router();
 
-rutaRandom.get('/', info, (req, res) => {
-    const {cant} = req.query;
-    const cantidad = parseFloat(cant)
-    const computo = fork(direccion, [cantidad]);
-    computo.send('inicio');
-    computo.on("message", (sum) => {
-        res.json({
-            resultado: sum,
-            PORT: puerto,
-        });
-    });
-});
+rutaRandom.get('/:cant', info, getRandoms);
 
 export default rutaRandom;

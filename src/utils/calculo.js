@@ -1,3 +1,5 @@
+import logger from "./logger.js"
+
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min)
 }
@@ -17,7 +19,7 @@ export const calculo = (cantidad) => {
 
 process.on('message', (msg) => {
     if (msg == 'inicio') {
-        console.log(process.argv[2])
+        logger.info(process.argv[2])
         let numero;
         if(isNaN(process.argv[2])){
             numero = 100000000
@@ -25,8 +27,8 @@ process.on('message', (msg) => {
             const number = parseFloat(process.argv[2])
             numero = number
         }
-        console.log(numero)
-        console.log(`Start calculo, PID: ${process.pid}`);
+        logger.info(numero)
+        logger.info(`Start calculo, PID: ${process.pid}`);
         const sum = calculo(numero);
         process.send(sum);
     }

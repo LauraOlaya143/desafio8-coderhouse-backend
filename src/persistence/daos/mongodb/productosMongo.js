@@ -1,6 +1,6 @@
 import {ProductsModel} from "./schemas/productos.js"
 
-export default class ClientMongo {
+export default class ClientMongoProductos {
     async getAllProducts() {
         const productos = await ProductsModel.find();
         return productos
@@ -34,7 +34,7 @@ export default class ClientMongo {
         const {title, price,thumbnail,timestamp,descripcion,codigo,stock} = array
         const product = await ProductsModel.findById(id);
         if(!product){
-            return "Producto no encontrado :("
+            return "Producto no encontrado :c"
         }
         const productUpdated = await ProductsModel.findByIdAndUpdate(
             id,
@@ -46,6 +46,10 @@ export default class ClientMongo {
     }
 
     async deleteProduct (id){
+        const findProduct= await ProductsModel.findById(id);
+        if(!findProduct){
+            return "Producto no encontrado :c"
+        }
         const product = await ProductsModel.findByIdAndDelete(id)
         const data = {
             msg: "Producto eliminado",
@@ -56,7 +60,7 @@ export default class ClientMongo {
     }
 }
 
-const MongoProductosController = new ClientMongo();
+const MongoProductosController = new ClientMongoProductos();
 
 export {
     MongoProductosController

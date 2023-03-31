@@ -2,6 +2,7 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { usuariosModel } from '../persistence/daos/mongodb/schemas/user.js';
 import { transporter, emailOptions } from "../services/emailService.js";
+import logger from "../utils/logger.js"
 
 const strategyOptions = {
   usernameField: 'username',
@@ -10,7 +11,7 @@ const strategyOptions = {
 };
 
 const signup = async (req, username, password, done) => {
-  console.log('SIGNUP!');
+  logger.info('SIGNUP!');
   try {
     const {email, direccion, edad, numero, foto} = req.body
     const user = await usuariosModel.findOne({email});
@@ -32,9 +33,9 @@ const signup = async (req, username, password, done) => {
     }
     try{
       const response = await transporter.sendMail(emailOptions);
-      console.log('Email enviado!');
+      logger.info('Email enviado!');
     }catch(error){
-      console.log(error);
+      logger.error(error);
     }
     await newUser.save();
     return done(null, newUser);
@@ -45,7 +46,7 @@ const signup = async (req, username, password, done) => {
 };
 
 const login = async (req, username, password, done) => {
-  console.log('LOGIN!');
+  logger.info('LOGIN!');
   const {email} = req.body
   const user = await usuariosModel.findOne({email});
   if (!user) {
@@ -54,19 +55,19 @@ const login = async (req, username, password, done) => {
     const match = await user.matchPassword(password);
     match ? done(null, user) : done(null, false);
   }
-  console.log('USUARIO ENCONTRADO!');
+  logger.info('USUARIO ENCONTRADO!');
 };
 
 export const loginFunc = new LocalStrategy(strategyOptions, login);
 export const signUpFunc = new LocalStrategy(strategyOptions, signup);
 
 passport.serializeUser((user, done)=>{
-  console.log('ejecuta serialize');
+  logger.info('ejecuta serialize');
   done(null, user._id);
 });
 
 passport.deserializeUser( async(userId, done)=>{
-  console.log('ejecuta deserialize');
+  logger.info('ejecuta deserialize');
   const user = await usuariosModel.findById(userId);
   return done(null, user);
 });

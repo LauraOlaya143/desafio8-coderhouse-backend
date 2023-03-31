@@ -15,6 +15,9 @@ var mensajesSchema = new _mongoose["default"].Schema({
   text: {
     type: String,
     required: true
+  },
+  time: {
+    type: String
   }
 });
 var MensajesModel = _mongoose["default"].model(mensajesCollectionName, mensajesSchema);

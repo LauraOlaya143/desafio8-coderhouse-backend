@@ -1,10 +1,6 @@
-// import fs from "fs/promises"
-import path from "path"
 import { ProductosController } from "../../services/rest/productosService.js"
 // import { sql } from "../controller/BDproductos"
 import logger from "../../utils/logger.js"
-
-// const filePath = path.resolve(__dirname, '../../productos.json');
 
 export const getAllProducts = async (req, res) => {
     try {
@@ -30,10 +26,9 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
     const id = req.params.id;
     try{
-        const product = await ProductosController.getById(id);1
+        const product = await ProductosController.getById(id);
 
         res.json({
-            msg: `id del productos: ${id}`,
             data: product
         })
     } catch (err) {
@@ -51,22 +46,9 @@ export const getProductById = async (req, res) => {
 }
 
 export const newProducto = async (req, res) => {
-    //se guarda el nuevo ID para el producto
-    /*const productos = await fs.readFile(filePath, 'utf8');
-    const arrayProductos = JSON.parse(productos)
-    const productos2 = await sql.getAllProducts()
-
-    let newId = 1
-
-    if(productos2.length) {
-        newId = productos2[productos2.length - 1].id + 1
-    }*/
-
-    // se guarda la informacion que paso el usuario
-
     const data = req.body;
 
-    console.log(data);
+    logger.info(data);
 
     const {title, price, thumbnail, descripcion, stock} = req.body
 

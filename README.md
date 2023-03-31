@@ -2,15 +2,30 @@ A la hora de probar las rutas de login y logout se debe tener en cuenta lo sigui
 
 la ruta "/login" tiene el metodo de get, lo cual significa que funciona desde el navegador, mostrando un front basico en donde esta un formulario, en el cual debes poner el nombre del usuario y la contraseña. Dos ejemplos los cuales se pueden probar son: 
 
-- nombre: juan, contraseña: 1234
-- nombre: jose, conreaseña: 123456
+- username: lau14, contraseña: 1234, email: laura14@gmail.com
+- nombre: pepe2, conreaseña: 12345, email: pepe2@gmail.comnp
 
-Al probar con uno de los dos usuarios se podra ver como aparece un mensaje de bienvenida arriba del contenido (productos, formulario, etc)
+si usamos las rutas de api/user/login o api/user/signup estas funcionaran en Postman.
+
+La ruta api/carrito/comprar/:id solo funcionara si estas logeado. Recomiendo probarlo con Postman, ya que en el navegador normal no se puede hacer de forma comoda.
+
+Al probar con uno de los dos usuarios se podra ver como aparece un mensaje de bienvenida arriba del contenido (productos, formulario, etc) y se activa el chat con web socket. Si no estas logeado el chat no funcionara pero se podra enviar mensajes a traves de la ruta "/mensajes" pero tendras que pasar los campos:
+
+-username
+-email
+-direccion
+-foto
+-text
 
 ///
-"prueba": "nodemon --exec babel-node src/index --p 8000 --m CLUSTER",
-    "pruebaForever": "forever start dist/index.js",
-    "listForever": "forever list"
+En index hay codigo comentado el cual se puede activar el modo Cluster con el siguiente comando:
+
+"prueba": "nodemon --exec babel-node src/index --p 8000 --m CLUSTER"
+
+Y estas son pruebas con forever
+
+"pruebaForever": "forever start dist/index.js",
+"listForever": "forever list"
 
 para hacer el servidor de modo cluster se debe ejecutar "npm run prueba"
 mientras que para un servidor de modo folk seria "npm run dev"
@@ -50,3 +65,7 @@ Probar con 0x
 3. Al terminar, acaba con el proceso de la primera consola, asi creando la carpeta de 0x
 4. Opcional: cambia el nombre del archivo.
 5. Abre la carpeta y abre el archivo "flamegraph.html" 
+
+//
+
+Para las pruebas con graphql se usa la ruta /graphql y para probar la documentacion con swagger es la ruta /docs

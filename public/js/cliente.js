@@ -12,12 +12,21 @@ form?.addEventListener('submit', (event) => {
 
     const cartaServer = {
         email: userName.value,
-        message: userText.value
+        text: userText.value
     }    
     
     console.log(cartaServer);
 
     socket.emit("eventoTextoUsuario", cartaServer);
+
+    Toastify({
+        text:"Tu mensaje se envio de forma exitosa",
+        duration: 3000,
+        close: true,
+        style: {
+            background: "linear-gradient(to right, #eecda3, #ef629f)",
+        },
+    }).showToast();
 
     userText.value = ""; 
 })
@@ -33,33 +42,29 @@ socket.on("respuestaMensaje", (data) => {
 
 socket.on("notifGeneral", (data) => {
     const newData = data.data;
+    Toastify({
+        text: "Ha llegado un nuevo mensaje!",
+        duration: 3000,
+        close: true,
+        style: {
+            background: "linear-gradient(to right, #eecda3, #ef629f)",
+        },
+    }).showToast();
+    console.log(newData)
     const realData = JSON.stringify(data)
     console.log(`El servidor envio una notificacion: ${realData}`)
-    const body = document.createElement("div");
-    body.classList.add("mensajeContenedor")
+    const authorName = newData.author.username
+    let mensaje = document.createElement("div");
+    mensaje.classList.add("mensajeContenedor")
+    mensaje.innerHTML = `
+        <h4 class="tittleMensaje">${authorName}</h4>
+        <div class="mensajeTexto">
+            <p class="horaMensaje">${newData.time}</p>
+            <p class="texto">${newData.text}</p>
+        </div>
+    `
 
-    const titulo = document.createElement("h4");
-    titulo.classList.add("tittleMensaje")
-    titulo.textContent = newData.email;
-
-    const divContenedor = document.createElement("div");
-    divContenedor.classList.add("mensajeTexto")
-
-    const time = document.createElement("p");
-    time.classList.add("horaMensaje")
-    time.textContent = newData.time;
-
-    const mensaje = document.createElement("p");
-    mensaje.classList.add("texto")
-    mensaje.textContent = newData.message;
-    
-    divContenedor.appendChild(time)
-    divContenedor.appendChild(mensaje)
-
-    body.appendChild(titulo);
-    body.appendChild(divContenedor);
-
-    divMensajes.appendChild(body)
+    divMensajes.appendChild(mensaje)
 })
 
 const formProductos = document.getElementById("formProductos")
@@ -86,6 +91,15 @@ formProductos?.addEventListener("submit", (event) => {
 
     socket.emit("eventoNuevoProducto", cartaServer);
 
+    Toastify({
+        text:"Se creo el producto de forma exitosa",
+        duration: 3000,
+        close: true,
+        style: {
+            background: "linear-gradient(to right, #eecda3, #ef629f)",
+        },
+    }).showToast();
+
     title.value = "";
     price.value = "";
     thumbnail.value = "";
@@ -99,7 +113,7 @@ socket.on("crearNuevoProducto", (data) => {
 
     const trProduct = document.createElement("tr");
     const tdId = document.createElement("td");
-    tdId.innerText = newData._id;
+    tdId.innerText = newData.id;
 
     const tdTitle = document.createElement("td");
     tdTitle.innerText = newData.title;
@@ -124,4 +138,13 @@ socket.on("crearNuevoProducto", (data) => {
     tdThumbnail.appendChild(divImg);
     
     tableContent.appendChild(trProduct);
+
+    Toastify({
+        text:"¡Se ha creado un nuevo producto!",
+        duration: 3000,
+        close: true,
+        style: {
+            background: "linear-gradient(to right, #eecda3, #ef629f)",
+        },
+    }).showToast();
 })

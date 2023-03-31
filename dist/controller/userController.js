@@ -22,10 +22,8 @@ var signUp = function signUp(req, res, next) {
 };
 exports.signUp = signUp;
 var login = function login(req, res) {
-  res.cookie("password", req.body.password).json({
-    msg: 'Bienvenido!',
-    user: req.user
-  });
+  res.cookie("password", req.body.password);
+  res.cookie("username", req.body.username).redirect("/");
 };
 exports.login = login;
 var getHome = function getHome(req, res) {

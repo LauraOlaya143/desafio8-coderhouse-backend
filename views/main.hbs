@@ -8,23 +8,24 @@
         {{> hbs/formularioHbs}}
         {{> hbs/productosHbs}}
     </div>
-
-    <h3>Hola! envia un mensaje :D</h3>
-    <div>
-        <form id="formulario">
-            <input type="email" id="userName" placeholder="Tu correo..."/>
-            <input type="text" id="userText" placeholder="Cuenta algo..."/>
-            <input type="submit" value="Enviar"/>
-        </form>
-    </div>
+    {{#if nombre}}
+    <h3 class="tittle_formulary">Aqui puedes hablar con personas que esten conectadas a la pagina</h3>
     <div id="mensajes">
         <div class="mensajeContenedor">
             <h4 class="tittleMensaje">Laura@gmail.com</h4>
             <div class="mensajeTexto">
                 <p class="horaMensaje">01-11-2022 10:11:74</p>
-                <p class="texto">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea obcaecati, sit laboriosam qui nam nemo a distinctio tempora, quisquam nihil molestiae impedit. Quaerat dolor autem repellat quisquam distinctio! Eius, ut!</p>
+                <p class="texto">¡Bienvenido al chat de la pagina!</p>
             </div>
         </div>
-
     </div>
+    
+    <div>
+        <form id="formulario">
+            <input type="text" id="userName" class="formulario_input" value="{{nombre}}" disabled/>
+            <input type="text" id="userText" class="formulario_input" placeholder="Cuenta algo..." minlength="1"/>
+            <input type="submit" class="button_detalle2" value="Enviar"/>
+        </form>
+    </div>
+    {{/if}}
 </div>

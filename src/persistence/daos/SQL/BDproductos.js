@@ -20,15 +20,19 @@ class ClientSql {
         })
     }
 
-    getAllProducts() {
+    async getAllProducts(id) {
         return this.knex.from("productos").select("*")
     }
 
-    async insertProduct(product) {
+    async getProductById(id) {
+        return this.knex.from("productos").select("*").where("id", id)
+    }
+
+    async createProduct(product) {
         await this.knex.from("productos").insert(product)
     }
 
-    async deleteProductById(id) {
+    async deleteProduct(id) {
         await this.knex.from("productos").where("id", id).del();
     }
 

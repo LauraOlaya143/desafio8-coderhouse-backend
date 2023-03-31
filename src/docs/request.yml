@@ -1,0 +1,63 @@
+components:
+  parameters:
+    schemas:
+      BodyProductPost:
+        type: object
+        required:
+          - title
+          - price
+          - thumbnail
+          - descripcion
+          - stock
+        properties:
+          title:
+            type: string
+            description: titulo del producto
+          price:
+            type: number
+            description: precio del producto
+          thumbnail:
+            type: string
+            description: imagen del producto
+          descripcion:
+            type: string
+            description: descripcion del producto
+          stock:
+            type: number
+            description: cantidades disponibles del producto
+        example:
+          title: barbie
+          price: 15
+          thumbnail: https://m.media-amazon.com/images/I/61wU8TmQesL._AC_UF894,1000_QL80_.jpg
+          descripcion: muñeca Barbie
+          stock: 120
+      BodyMensajePost:
+        type: object
+        required:
+          - username
+          - email
+          - direccion
+          - foto
+          - text
+        properties:
+          username:
+            type: string
+            description: nombre de usuario
+          email:
+            type: string
+            description: email del usuario
+          direccion:
+            type: string
+            description: direccion del usuario
+          foto:
+            type: string
+            description: foto de perfil del usuario
+          text:
+            type: string
+            description: mensaje a publicar
+        example:
+          username: pepe2
+          email: pepe2@gmail.com
+          direccion: mila4
+          foto: https://pbs.twimg.com/media/Flv5LprWYAAMhow.jpg
+          text: Hola

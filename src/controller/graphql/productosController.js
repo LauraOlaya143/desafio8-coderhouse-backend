@@ -1,5 +1,4 @@
 import {getAllProducts, getProductById, crearProducto, editarProducto, eliminarProducto} from "../../services/rest/productosService.js"
-import logger from "../../utils/logger.js"
 
 export async function getAllProductsCtr(){
     const data = await getAllProducts()

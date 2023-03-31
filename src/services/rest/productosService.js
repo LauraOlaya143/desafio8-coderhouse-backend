@@ -24,57 +24,31 @@ class ProductosAPI {
     }
 
     async exists(id) {
-        /* FS:
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos); 
-
-        SQL:
-        const productos = await sql.getAllProducts()
-        
-        Mongo*/
-        const productos = await MongoProductosController.getAllProducts()
+        const productos = await productsRepository.getAll()
         const indice = productos.findIndex(prod => prod.id == id);
 
         return indice >= 0;
     }
 
     async getAll() {
-        //SQL: const productos = await sql.getAllProducts()
-        // const productos = await MongoProductosController.getAllProducts()
         const productos = await productsRepository.getAll()
         return productos
     }
 
     async getById(id) {
-        //SQL: const productos = await sql.getAllProducts()
         const existe = await this.exists(id)
 
-        if(!existe) throw createError(404, 'producto no encontrado')
+        if(!existe) throw createError(404, 'producto no encontrado :c')
 
-        const indice = await await productsRepository.getById(id)
+        const indice = await productsRepository.getById(id)
         return indice
     }
 
     async saveNewProduct(newProduct) {
-        /* FS:
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
-
-        SQL:
-        const productos2 = await sql.getAllProducts() */
-
         const {title, price, thumbnail, descripcion, stock} = newProduct
 
-        //fs y SQL: let newId = 1
         const time = moment().format("DD-MM-YYYY HH:MM:SS")
         const newCodigo = uuidv4();
-
-        /* fs y SQL:
-        if(productos2.length) {
-            newId = productos2[productos2.length - 1].id + 1
-        }
-
-        const intId = Math.floor(newId) */
     
         const product = {
             title,
@@ -86,38 +60,18 @@ class ProductosAPI {
             stock
         }
         
-        //SQL: const controller = await sql.insertProduct(product)
-
-        // const controller = await MongoProductosController.createProduct(product)
-        
         const controller = await productsRepository.saveProduct(product);
 
         return controller
 
-        /*FS
-        arrayProductos.push(product);
-
-        const newData = JSON.stringify(arrayProductos, null, "\t")
-
-        await fs.writeFile(filePath, newData)
-            return product
-        */
         } 
 
     async updateById (id, newProduct) {
-        /*FS:
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos) 
+        const existe = await this.exists(id)
 
-        SQL:
-        const productos = await sql.getAllProducts()*/
-
-        /* FS y SQL:
-        const indice = productos.findIndex(prod => prod.id == id);
-        const product = productos[indice] 
-        const intId = Math.floor(id)*/
-
-        const product = await MongoProductosController.getProductById(id)
+        if(!existe) throw createError(404, 'producto no encontrado :c')
+        
+        const product = await productsRepository.getById(id)
 
         const {title, price, thumbnail, descripcion, stock} = newProduct
         const {timestamp, codigo} = product
@@ -134,32 +88,13 @@ class ProductosAPI {
 
         const controller = await productsRepository.updateProduct(id, productoActualizado)
 
-        //SQL: const controller = await sql.updateProduct(intId, productoActualizado)
-        
-        /* FS: 
-        arrayProductos.splice(indice, 1, productoActualizado);
-
-        const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, DataActualizada) */
-
         return controller
     }
 
     async deleteById (id){
-        /*FS:
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos)
+        const existe = await this.exists(id)
 
-        SQL: const productos = await sql.getAllProducts()
-        
-        const indice = productos.findIndex(prod => prod.id == id);
-
-        const controller = await sql.deleteProductById(id)
-
-        arrayProductos.splice(indice, 1);
-
-        const newData = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, newData) */
+        if(!existe) throw createError(404, 'producto no encontrado :c')
         
         const controller = await productsRepository.deleteProduct(id)
 
@@ -167,26 +102,18 @@ class ProductosAPI {
     }
 
     async eliminarStock(idProducto){
-        /*fs:
-        const productos = await fs.readFile(filePath, 'utf8');
-        const arrayProductos = JSON.parse(productos); 
-
-        SQL:
-        const productos = await sql.getAllProducts()
-        const indice = productos.findIndex(prod => prod.id == idProducto);
-
-        const product = productos[indice]
-        */
         
         const existe = await this.exists(idProducto)
 
         if(!existe) throw createError(404, 'producto no encontrado')
         
-        const producto = await MongoProductosController.getProductById(idProducto)
+        const producto = await productsRepository.getById(idProducto)
 
         const {title, price, thumbnail, timestamp, descripcion, codigo, stock} = producto;
 
         const newStock = stock - 1;
+
+        if (newStock <= 0) return "No hay estock disponible :c"
 
         const productoActualizado = {
             title,
@@ -198,20 +125,13 @@ class ProductosAPI {
             stock: newStock
         }
 
-        const controller = await MongoProductosController.updateProduct(idProducto, productoActualizado)
-
-        /*SQL:
-        const constroller = await sql.updateStockById(idProducto, newStock);
-
-        FS:
-        arrayProductos.splice(indice, 1, newProduct);
-
-        const DataActualizada = JSON.stringify(arrayProductos, null, "\t")
-        await fs.writeFile(filePath, DataActualizada) */
+        const controller = await productsRepository.updateProduct(idProducto, productoActualizado)
 
         return "stock eliminado"
     }
 }
+
+//funciones graphql
 
 export const crearProducto = async(obj) => {
     const {title, price, thumbnail, descripcion, stock} = obj
@@ -240,11 +160,25 @@ export const getAllProducts = async() => {
 };
 
 export const getProductById = async(id) =>{
-    const indice = await await productsRepository.getById(id)
+    const productos = await productsRepository.getAll()
+    const prueba = productos.findIndex(prod => prod.id == id);
+    
+    const existe = prueba >= 0
+
+    if(!existe) throw createError(404, 'producto no encontrado :c')
+
+    const indice = await productsRepository.getById(id)
     return indice
 };
 
 export const editarProducto = async(id, body) =>{
+    const productos = await productsRepository.getAll()
+    const prueba = productos.findIndex(prod => prod.id == id);
+    
+    const existe = prueba >= 0
+
+    if(!existe) throw createError(404, 'producto no encontrado :c')
+
     const product = await MongoProductosController.getProductById(id)
 
     const {title, price, thumbnail, descripcion, stock} = body
@@ -265,9 +199,45 @@ export const editarProducto = async(id, body) =>{
 };
 
 export const eliminarProducto = async(id) =>{
+    const productos = await productsRepository.getAll()
+    const prueba = productos.findIndex(prod => prod.id == id);
+    
+    const existe = prueba >= 0
+
+    if(!existe) throw createError(404, 'producto no encontrado :c')
+
     const controller = await productsRepository.deleteProduct(id)
     return `eliminando el producto con el id: ${id}`
 };
+
+export const eliminarStock = async (idProducto) => {
+    const productos = await productsRepository.getAll()
+    const indice = productos.findIndex(prod => prod.id == idProducto);
+    
+    const existe = indice >= 0
+
+    if(!existe) throw createError(404, 'producto no encontrado :c')
+    
+    const producto = await productsRepository.getById(idProducto)
+
+    const {title, price, thumbnail, timestamp, descripcion, codigo, stock} = producto;
+
+    const newStock = stock - 1;
+
+    const productoActualizado = {
+        title,
+        price,
+        thumbnail,
+        timestamp,
+        descripcion,
+        codigo,
+        stock: newStock
+    }
+
+    const controller = await productsRepository.updateProduct(idProducto, productoActualizado)
+
+    return "stock eliminado"
+}
 
 const ProductosController = new ProductosAPI(filePath);
 

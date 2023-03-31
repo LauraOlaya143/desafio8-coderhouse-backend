@@ -12,11 +12,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-var ClientMongo = /*#__PURE__*/function () {
-  function ClientMongo() {
-    _classCallCheck(this, ClientMongo);
+var ClientMongoProductos = /*#__PURE__*/function () {
+  function ClientMongoProductos() {
+    _classCallCheck(this, ClientMongoProductos);
   }
-  _createClass(ClientMongo, [{
+  _createClass(ClientMongoProductos, [{
     key: "getAllProducts",
     value: function () {
       var _getAllProducts = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
@@ -127,7 +127,7 @@ var ClientMongo = /*#__PURE__*/function () {
                   _context4.next = 6;
                   break;
                 }
-                return _context4.abrupt("return", "Producto no encontrado :(");
+                return _context4.abrupt("return", "Producto no encontrado :c");
               case 6:
                 _context4.next = 8;
                 return _productos.ProductsModel.findByIdAndUpdate(id, {
@@ -160,21 +160,31 @@ var ClientMongo = /*#__PURE__*/function () {
     key: "deleteProduct",
     value: function () {
       var _deleteProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id) {
-        var product, data;
+        var findProduct, product, data;
         return _regeneratorRuntime().wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
                 _context5.next = 2;
-                return _productos.ProductsModel.findByIdAndDelete(id);
+                return _productos.ProductsModel.findById(id);
               case 2:
+                findProduct = _context5.sent;
+                if (findProduct) {
+                  _context5.next = 5;
+                  break;
+                }
+                return _context5.abrupt("return", "Producto no encontrado :c");
+              case 5:
+                _context5.next = 7;
+                return _productos.ProductsModel.findByIdAndDelete(id);
+              case 7:
                 product = _context5.sent;
                 data = {
                   msg: "Producto eliminado",
                   product: product
                 };
                 return _context5.abrupt("return", data);
-              case 5:
+              case 10:
               case "end":
                 return _context5.stop();
             }
@@ -187,8 +197,8 @@ var ClientMongo = /*#__PURE__*/function () {
       return deleteProduct;
     }()
   }]);
-  return ClientMongo;
+  return ClientMongoProductos;
 }();
-exports["default"] = ClientMongo;
-var MongoProductosController = new ClientMongo();
+exports["default"] = ClientMongoProductos;
+var MongoProductosController = new ClientMongoProductos();
 exports.MongoProductosController = MongoProductosController;

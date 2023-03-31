@@ -13,7 +13,9 @@ export const signUp = (req, res, next) => {
 }
 
 export const login = (req, res) => {
-    res.cookie("password", req.body.password).json({ msg: 'Bienvenido!', user: req.user });
+    res.cookie("password", req.body.password)
+    res.cookie("username", req.body.username).redirect("/")
+    
 }
 
 export const getHome = (req, res) => {

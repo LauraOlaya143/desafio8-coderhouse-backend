@@ -1,7 +1,9 @@
 import io from "socket.io"
-import { messageController } from "./mensajesService"
+import { messageController } from "./rest/mensajesService.js"
 import moment from "moment"
 import { ProductosController } from "./rest/productosService.js"
+import {getAll} from "../persistence/repository/userRepository.js"
+import logger from "../utils/logger.js"
 
 let myWebSocketServer;
 
@@ -10,35 +12,39 @@ const initWsServer = (server) => {
     myWebSocketServer = io(server);
 
     myWebSocketServer.on("connection", (socket) => {
-        console.log("Se acaba de conectar un cliente!")
+        logger.info("Se acaba de conectar un cliente!")
     
         //este es el id para enviar cosas del server al cliente
-        console.log("ID del servidor socket", socket.id)
+        logger.info(`ID del servidor socket ${socket.id}`)
     
         //este es el id para enviar cosas del cliente al servidor
-        console.log("ID del cliente socket", socket.client.id)
+        logger.info(`ID del cliente socket ${socket.client.id}`)
 
         socket.on("eventoNuevoProducto", async (dataUsuario) => {
             const dataController = await ProductosController.saveNewProduct(dataUsuario)
-            const newData = await ProductosController.getAll()
-            const newProductId = newData[newData.length - 1].id
-            const newProduct = await ProductosController.getById(newProductId)
             
             myWebSocketServer.emit("crearNuevoProducto", {
-                data: newProduct
+                data: dataController
             })
         })
     
         socket.on("eventoTextoUsuario", async (dataUsuario) => {
-            console.log(`el cliente ${socket.client.id} me acaba de enviar el mensaje con el evento eventoTextoUsuario`)
+            logger.info(`el cliente ${socket.client.id} me acaba de enviar el mensaje con el evento eventoTextoUsuario`)
+
+            const usuarios = await getAll();
+            const userName = dataUsuario.email
+            const indice = usuarios.findIndex(user => user.username == userName);
+            const usuario = usuarios[indice]
+            logger.info(usuario)
+            
 
             const newMessage = {
-                email: dataUsuario.email,
-                message: dataUsuario.message,
+                author: usuario,
+                text: dataUsuario.text,
                 time: moment().format("DD-MM-YYYY HH:MM:SS"),
             }
 
-            console.log(newMessage)
+            logger.info(newMessage)
 
             const dataController = await messageController.saveNewMessage(newMessage)
 

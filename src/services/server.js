@@ -1,22 +1,26 @@
 import express, { json } from "express";
 import http from "http";
 import { initWsServer } from "./socket"
-import rutaPrincipal from "../routes/index"
-import { engine } from 'express-handlebars'
 import path from "path"
-import { ProductosController } from "./rest/productosService.js"
-import { messageController } from "./mensajesService"
+import { engine } from 'express-handlebars'
 import morgan from "morgan";
 import {faker} from "@faker-js/faker"
 import moment from "moment"
 import { v4 as uuidv4 } from 'uuid';
+
+import rutaPrincipal from "../routes/index"
+import { ProductosController } from "./rest/productosService.js"
+import { productosRandoms } from "./rest/productos-testService"
+import { messageController } from "./rest/mensajesService.js"
 import { normalizado, desnormalizar } from "../utils/normalizado.js"
+import compression from 'compression';
+
 import cookieParser from "cookie-parser"
 import session from 'express-session';
+import cors from 'cors';
 import MongoStore from 'connect-mongo';
 import passport from "passport";
 import {loginFunc, signUpFunc} from "../controller/auth.js"
-import compression from 'compression';
 
 import logger from "../utils/logger.js"
 import info from "../middlewares/logger.js"
@@ -24,9 +28,19 @@ import info from "../middlewares/logger.js"
 // graphql
 
 import { graphqlHTTP } from "express-graphql"
-import {graphqlRoot, graphqlSchema} from "./graphql/productosService.js"
+import {graphqlRoot, graphqlSchema} from "./graphql/ServiceGraphql.js"
+
+//documentacion de api con swagger
+
+import swaggerUI from "swagger-ui-express"
+import swaggerJSDoc from "swagger-jsdoc"
+import { infoDocs } from "../docs/info.js"
+
+//usar Faker
 
 faker.locale = "es"
+
+// rutas de las vistas con HBS
 
 const viewsFolderPath = path.resolve(__dirname, '../../views');
 const layoutsFolderPath = `${viewsFolderPath}/layouts`
@@ -56,6 +70,8 @@ app.engine('hbs', engine({
     partialsDir: partialsFolderPath
 }
 ));
+
+//cookies y session con passport
 
 const mySecret = "mySecret"
 app.use(cookieParser(mySecret));
@@ -100,92 +116,130 @@ const users = [
     }
 ]
 
+//GraphQL
+
 app.use("/graphql", graphqlHTTP({
     schema: graphqlSchema,
     rootValue: graphqlRoot,
     graphiql: true
 }))
 
-app.post("/login",info, async (req, res) => {
-    const { username, password } = req.body;
+//documentacion de api
 
-    const index = users.findIndex((user) => user.username === username && user.password === password)
+const specs = swaggerJSDoc(infoDocs)
 
-    console.log(index);
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(specs))
 
+//Que todos los dominios puedan:
+
+app.use(cors()); 
+
+//pagina principal
+
+app.get("/", info, async (req, res) => {
     const data = await ProductosController.getAll()
     const cantidadObjetos = data.length
     const validarArray = cantidadObjetos > 0 ? true : false
+    const user = req.cookies.username
+    logger.info(user)
 
-    let respuesta = []
+    res.render("main", { nombre: user, productos: data, cantidad: validarArray})
+})
 
-    for (let i = 0; i < data.length; i++) {
-        respuesta.push({
-            id: data[i]._id,
-            title: data[i].title,
-            price: data[i].price,
-            thumbnail: data[i].thumbnail,
-            timestamp: data[i].timestamp,
-            descripcion: data[i].descripcion,
-            codigo: data[i].codigo,
-            stock: data[i].stock
-        })
+//Login y logout (con persistencia local)
+
+// app.post("/login",info, async (req, res) => {
+//     const { username, password } = req.body;
+
+//     const index = users.findIndex((user) => user.username === username && user.password === password)
+
+//     logger.info(index);
+
+//     const data = await ProductosController.getAll()
+//     const cantidadObjetos = data.length
+//     const validarArray = cantidadObjetos > 0 ? true : false
+
+//     let respuesta = []
+
+//     for (let i = 0; i < data.length; i++) {
+//         respuesta.push({
+//             id: data[i]._id,
+//             title: data[i].title,
+//             price: data[i].price,
+//             thumbnail: data[i].thumbnail,
+//             timestamp: data[i].timestamp,
+//             descripcion: data[i].descripcion,
+//             codigo: data[i].codigo,
+//             stock: data[i].stock
+//         })
         
-    }
+//     }
 
-    if(index < 0) {
-        logger.error("No estas autorizado")
-        res.status(401).json({msg: "No estas autorizado :c"});
-    } else {
-        const user = users[index];
-        req.session.info = {
-            username: user.username,
-            loggedIn: true,
-            contador: 1,
-            admin: user.admin,
-        }
+//     if(index < 0) {
+//         logger.error("No estas autorizado")
+//         res.status(401).json({msg: "No estas autorizado :c"});
+//     } else {
+//         const user = users[index];
+//         req.session.info = {
+//             username: user.username,
+//             loggedIn: true,
+//             contador: 1,
+//             admin: user.admin,
+//         }
 
-        res.render("main", { nombre: user.username, productos: respuesta, cantidad: validarArray})
-    }
+//         res.render("main", { nombre: user.username, productos: respuesta, cantidad: validarArray})
+//     }
+// })
+
+// app.post("/login-json",info, async (req, res) => {
+//     const { username, password } = req.body;
+
+//     const index = users.findIndex((user) => user.username === username && user.password === password)
+
+//     logger.info(index);
+
+//     if(index < 0) {
+//         res.status(401).json({msg: "No estas autorizado :c"});
+//     } else {
+//         const user = users[index];
+//         req.session.info = {
+//             username: user.username,
+//             loggedIn: true,
+//             contador: 1,
+//             admin: user.admin,
+//         }
+
+//         res.json({msg: `Bienvenido ${user.username}`})
+//     }
+// })
+
+//Login front con passport
+
+app.get("/login", info, (req, res) => {
+    res.render("loginHbs")
 })
 
-app.post("/login-json",info, async (req, res) => {
-    const { username, password } = req.body;
 
-    const index = users.findIndex((user) => user.username === username && user.password === password)
-
-    console.log(index);
-
-    if(index < 0) {
-        res.status(401).json({msg: "No estas autorizado :c"});
-    } else {
-        const user = users[index];
-        req.session.info = {
-            username: user.username,
-            loggedIn: true,
-            contador: 1,
-            admin: user.admin,
-        }
-
-        res.json({msg: `Bienvenido ${user.username}`})
-    }
-})
-
-app.post('/logout',info, (req, res) => {
-    req.session.destroy();
-    res.render("loginDespedida")
+app.post('/logout',info, function(req, res, next){
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        const cookies = req.cookies;
+        logger.info(cookies);
+        res.clearCookie("username")
+        res.redirect('/login');
+    });
 });
+
+//logout como prueba en Postman
 
 app.post('/logout-json',info, (req, res) => {
     req.session.destroy();
     res.json({msg: "Session destruida"})
 });
 
-app.get("/login", info, (req, res) => {
-    res.render("loginHbs")
-})
+//Usando la informacion del objeto REQ
 
-app.get("/hola", info, (req, res) => {
+app.get("/infoRoot", info, (req, res) => {
     const ruta = req.url;
     const metodo = req.method
 
@@ -195,13 +249,7 @@ app.get("/hola", info, (req, res) => {
     })
 })
 
-app.get("/", info, async (req, res) => {
-    const data = await ProductosController.getAll()
-    const cantidadObjetos = data.length
-    const validarArray = cantidadObjetos > 0 ? true : false
-
-    res.render("main", { productos: data, cantidad: validarArray})
-})
+//Front de pagina de productos y formulario
 
 app.get("/productos", info, async (req, res) => {
     const data = await ProductosController.getAll()
@@ -211,25 +259,7 @@ app.get("/productos", info, async (req, res) => {
 })
 
 app.get("/productos-test", info, async (req, res) => {
-    let respuesta = [];
-    for (let i = 0; i < 5; i++) {
-        const time = moment().format("DD-MM-YYYY HH:MM:SS");
-        const newCodigo = uuidv4();
-        const newStock = faker.random.numeric(3);
-
-        const newStockNumber = Math.floor(newStock)
-
-        respuesta.push({
-            id: faker.database.mongodbObjectId(),
-            title: faker.commerce.product(),
-            price: faker.commerce.price(100, 200, 0, '$'),
-            thumbnail: faker.image.animals(1234, 2345, true),
-            timestamp: time,
-            descripcion: faker.commerce.productDescription(),
-            codigo: newCodigo,
-            stock: newStockNumber
-        })
-    }
+    let respuesta = await productosRandoms()
 
     const cantidadObjetos = respuesta.length
     const validarArray = cantidadObjetos > 0 ? true : false
@@ -241,20 +271,7 @@ app.get("/formulario",info, (req, res) => {
     res.render("formularioHbs")
 })
 
-app.use((err, req, res, next) => {
-    const status = err.status || 500;
-        const message = err.message || "internal server error";
-
-        console.log(err.stack)
-
-        res.status(status).json(
-            {
-                message
-            }
-        )
-})
-
-app.use("/api", rutaPrincipal)
+//Mensajes guardados en Mongo
 
 app.get("/mensajes", info, async (req, res) => {
     try {
@@ -279,22 +296,19 @@ app.get("/mensajes", info, async (req, res) => {
 
 app.post("/mensajes", info, async (req, res) => {
     try {
-        const {email, nombre, apellido, edad, alias, avatar, text} = req.body
-
-        const edadNum = Math.floor(edad)
+        const {username, email, direccion, foto, text} = req.body
 
         const objetoUsuario = {
-            email,
-            nombre,
-            apellido,
-            edad: edadNum,
-            alias,
-            avatar
+            username, 
+            email, 
+            direccion, 
+            foto
         }
 
         const newMensaje = {
             author: objetoUsuario,
-            text
+            text,
+            time: moment().format("DD-MM-YYYY HH:MM:SS"),
         }
 
         const controller = await messageController.saveNewMessage(newMensaje)
@@ -315,6 +329,8 @@ app.post("/mensajes", info, async (req, res) => {
         )
     }
 })
+
+//Normalizacion y desnormalizacion de mensajes
 
 app.get("/mensajes-normalizados", info, async (req, res) => {
     try {
@@ -358,6 +374,8 @@ app.get("/mensajes-desnormalizados", info, async (req, res) => {
     
 })
 
+//Informacion usando el objeto process
+
 app.get("/info", info, (req, res) => {
     const directorio = process.cwd();
     const idProcesoActual = process.pid;
@@ -377,8 +395,10 @@ app.get("/info", info, (req, res) => {
     })
 })
 
+//Prueba de que la pagina no se congela
+
 app.get('/slow', info, function (req, res) {
-    console.log(`PID= ${process.pid}`);
+    logger.info(`PID= ${process.pid}`);
     let sum = 0;
     for (let i = 0; i < 15006500445; i++) {
         sum += i;
@@ -390,8 +410,25 @@ app.get('/slow', info, function (req, res) {
     });
 });
 
+app.use("/api", rutaPrincipal)
+
+app.use((err, req, res, next) => {
+    const status = err.status || 500;
+        const message = err.message || "internal server error";
+
+        logger.error(err.stack)
+
+        res.status(status).json(
+            {
+                message
+            }
+        )
+})
+
+//Control de mensajes para rutas no existentes
+
 app.get('/*', info, (req, res) => {
-    logger.warn("Ruta no encontrada :c")
+    logger.info("Ruta no encontrada :c")
     res.json({
         msg: "Esta ruta no existe :c"
     })

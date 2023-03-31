@@ -1,0 +1,423 @@
+paths:
+  /api/productos:
+    post:
+      tags:
+      - Productos
+      summary: crea y sube un nuevo producto a la base de datos
+      description: Toma la informacion del body de la request t crea una nueva noticia en la base de datos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyProductPost"
+      responses:
+        200:
+          description: Se recibe un objeto con la noticia creada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/producto"
+        500:
+          description: error del servidor
+          $ref: "#/components/schemas/News/NotFound"
+    get:
+      tags:
+      - Productos
+      summary: lista de productos en la base de datos
+      description: Trae en forma de JSON todos los productos guardados en la base de datos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/getAll"
+        500:
+          description: error del servidor
+          $ref: "#/components/schemas/Productos/NotFound"
+  /api/productos/{id}:
+    get:
+      tags:
+      - Productos
+      summary: Traer un producto segun su id
+      description: Toma el id pasado como parametro y trae el producto de la base de datos el cual tenga el mismo id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id
+          schema:
+            type: string
+      responses:
+        200:
+          description: producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/producto"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun producto con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/errorGetById"
+    put:
+      tags:
+      - Productos
+      summary: edita un producto segun su id
+      description: Toma el id pasado como parametro y edita el producto de la base de datos el cual tenga el mismo id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyProductPost"
+      responses:
+        200:
+          description: producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/producto"
+        404:
+          description: no existe ningun producto con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/errorGetById"
+    delete:
+      tags:
+      - Productos
+      summary: elimina un producto segun su id
+      description: Toma el id pasado como parametro y elimina el producto de la base de datos el cual tenga el mismo id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id
+          schema:
+            type: string
+      responses:
+        200:
+          description: producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/productoEliminado"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun producto con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/errorGetById"
+  /api/productos-test:
+    get:
+      tags:
+      - Productos-test
+      summary: lista de productos generados con faker
+      description: Trae en forma de JSON 5 productos generados de forma aleatoria usando faker
+      responses:
+        200:
+          description: Lista de productos con faker
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Productos/getAll"
+        500:
+          description: error del servidor
+          $ref: "#/components/schemas/Productos/NotFound"
+  /api/carrito:
+    post:
+      tags:
+      - Carrito
+      summary: crea y sube un nuevo carrito a la base de datos
+      description: Crea un carrito vacio y lo guarda en la base de datps
+      responses:
+        200:
+          description: Se recibe un objeto con el id del carrito y el array vacio.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/newCarrito"
+        500:
+          description: error del servidor
+          $ref: "#/components/schemas/Carritos/NotFound"
+  /api/carrito/{id}:
+    delete:
+      tags:
+      - Carrito
+      summary: elimina un carrito segun su id
+      description: Toma el id pasado como parametro y elimina el carrito de la base de datos el cual tenga el mismo id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id
+          schema:
+            type: string
+      responses:
+        200:
+          description: carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/productoEliminado"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun carrito con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/errorGetById"
+  /api/carrito/{id}/productos:
+    get:
+      tags:
+      - Carrito
+      summary: Traer un carrito segun su id
+      description: Toma el id pasado como parametro y trae el carrito de la base de datos el cual tenga el mismo id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: string id
+          schema:
+            type: string
+      responses:
+        200:
+          description: carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/getCarrito"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun carrito con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/errorGetById"
+  /api/carrito/{idCarrito}/productos/{idProducto}:
+    post:
+      tags:
+      - Carrito
+      summary: elimina el producto que tiene dicho ID al array de productos del carrito
+      description: toma los dos ID que son pasados como parametros para asi eliminar el producto correcto al carrito correcto.
+      parameters:
+        - in: path
+          name: idCarrito
+          required: true
+          description: id del carrito
+          schema:
+            type: string
+        - in: path
+          name: idProducto
+          required: true
+          description: id del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/getCarrito"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun carrito con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/errorGetById"
+    delete:
+      tags:
+      - Carrito
+      summary: agrega el producto que tiene dicho ID al array de productos del carrito
+      description: toma los dos ID que son pasados como parametros para asi agregar el producto correcto al carrito correcto.
+      parameters:
+        - in: path
+          name: idCarrito
+          required: true
+          description: id del carrito
+          schema:
+            type: string
+        - in: path
+          name: idProducto
+          required: true
+          description: id del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/productoEliminado"
+                # $ref: "#/components/schemas/News/new"
+        404:
+          description: no existe ningun carrito con ID asignado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carritos/errorGetById"
+  /mensajes:
+    get:
+      tags:
+      - Mensajes
+      summary: trae todos los mensajes guardados en la base de datos
+      description: Trae array de objetos, los cuales son los mensajes guardados en la pagina, cada uno con su respectivo autor.
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensajes/mensaje"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensajes/NotFound"
+    post:
+      tags:
+      - Mensajes
+      summary: publica un nuevo mensaje y lo guarda en la base de datos
+      description: Toma la informacion que se pasa en el body y la convierte en un nuevo mensaje, asi devolviendo el objeto que se guardara en la base de datos.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/parameters/schemas/BodyMensajePost"
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensajes/mensaje"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensajes/NotFound"
+  /mensajes-normalizados:
+    get:
+      tags:
+      - MensajesNormalizados
+      summary: trae todos los mensajes normalizados
+      description: Trae array de objetos, los cuales son los mensajes guardados en la base de datos pero normalizados con normalizr
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Mensajes/mensaje"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mensajesNormalizados/NotFound"
+  /mensajes-desnormalizados:
+    get:
+      tags:
+      - MensajesDesnormalizados
+      summary: trae todos los mensajes desnormalizados
+      description: Trae array de objetos, los cuales son los mensajes normalizados que se guardaron en FileSystem, para asi desnormalizarlo para el usuario
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MensajesDesnormalizados/mensaje"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mensajesNormalizados/NotFound"
+  /info:
+    get:
+      tags:
+      - InfoProcess
+      summary: trae el informacion del objeto process
+      description: Trae un objeto con informacion sacada del objeto process, como lo es el directorio, el id del Proceso Actual, la version de Node, el nombre del Proceso, el sistema Operativo y memoria total
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoProcess/informacion"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/mensajesNormalizados/NotFound"
+  /infoRoot:
+    get:
+      tags:
+      - InformacionRooter
+      summary: trae el informacion de la ruta y metodo
+      description: Trae un objeto con la ruta y metodo.
+      responses:
+        200:
+          description: informacion lista
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoRoot/informacion"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoRoot/NotFound"
+  /api/randoms/{cant}:
+    get:
+      tags:
+      - Randoms
+      summary: trae el puerto y calculo aleatorio
+      description: Devuelve la informacion de un calculo, el cual se trata de tomar un numero del 1 al 1000 de forma comletamente aleatoria. Este calculo se repetira las veces que el usuario lo indique segun el parametro, asi devolviendole un array con los numeros repetidos, las veces que se repitieron y el puerto de la api.
+      parameters:
+        - in: path
+          name: cant
+          required: true
+          description: cantidad de veces que se repetira el calculo
+          schema:
+            type: number
+      responses:
+        200:
+          description: calculo terminado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Calculos/calculo"
+                # $ref: "#/components/schemas/News/new"
+        500:
+          description: error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Calculos/NotFound"

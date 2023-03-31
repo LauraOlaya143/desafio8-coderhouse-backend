@@ -1,6 +1,6 @@
 import {MensajesModel} from "./schemas/mensajes.js"
 
-class ClientMongo {
+export default class ClientMongoMensajes {
     async getAllMensajes() {
         const mensajes = await MensajesModel.find();
         return mensajes
@@ -12,7 +12,7 @@ class ClientMongo {
     }
 }
 
-const MongoMensajesController = new ClientMongo();
+const MongoMensajesController = new ClientMongoMensajes();
 
 export {
     MongoMensajesController

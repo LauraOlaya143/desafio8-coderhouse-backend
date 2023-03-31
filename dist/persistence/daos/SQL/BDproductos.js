@@ -55,62 +55,99 @@ var ClientSql = /*#__PURE__*/function () {
     }()
   }, {
     key: "getAllProducts",
-    value: function getAllProducts() {
-      return this.knex.from("productos").select("*");
-    }
-  }, {
-    key: "insertProduct",
     value: function () {
-      var _insertProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(product) {
+      var _getAllProducts = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(id) {
         return _regeneratorRuntime().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return this.knex.from("productos").insert(product);
-              case 2:
+                return _context2.abrupt("return", this.knex.from("productos").select("*"));
+              case 1:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2, this);
       }));
-      function insertProduct(_x) {
-        return _insertProduct.apply(this, arguments);
+      function getAllProducts(_x) {
+        return _getAllProducts.apply(this, arguments);
       }
-      return insertProduct;
+      return getAllProducts;
     }()
   }, {
-    key: "deleteProductById",
+    key: "getProductById",
     value: function () {
-      var _deleteProductById = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
+      var _getProductById = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(id) {
         return _regeneratorRuntime().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
-                return this.knex.from("productos").where("id", id).del();
-              case 2:
+                return _context3.abrupt("return", this.knex.from("productos").select("*").where("id", id));
+              case 1:
               case "end":
                 return _context3.stop();
             }
           }
         }, _callee3, this);
       }));
-      function deleteProductById(_x2) {
-        return _deleteProductById.apply(this, arguments);
+      function getProductById(_x2) {
+        return _getProductById.apply(this, arguments);
       }
-      return deleteProductById;
+      return getProductById;
     }()
   }, {
-    key: "updateProduct",
+    key: "createProduct",
     value: function () {
-      var _updateProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(id, newProd) {
+      var _createProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(product) {
         return _regeneratorRuntime().wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 _context4.next = 2;
+                return this.knex.from("productos").insert(product);
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+      function createProduct(_x3) {
+        return _createProduct.apply(this, arguments);
+      }
+      return createProduct;
+    }()
+  }, {
+    key: "deleteProduct",
+    value: function () {
+      var _deleteProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id) {
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this.knex.from("productos").where("id", id).del();
+              case 2:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+      function deleteProduct(_x4) {
+        return _deleteProduct.apply(this, arguments);
+      }
+      return deleteProduct;
+    }()
+  }, {
+    key: "updateProduct",
+    value: function () {
+      var _updateProduct = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6(id, newProd) {
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
                 return this.knex.from("productos").where("id", id).update({
                   title: newProd.title,
                   price: newProd.price,
@@ -120,12 +157,12 @@ var ClientSql = /*#__PURE__*/function () {
                 });
               case 2:
               case "end":
-                return _context4.stop();
+                return _context6.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee6, this);
       }));
-      function updateProduct(_x3, _x4) {
+      function updateProduct(_x5, _x6) {
         return _updateProduct.apply(this, arguments);
       }
       return updateProduct;
@@ -133,23 +170,23 @@ var ClientSql = /*#__PURE__*/function () {
   }, {
     key: "updateStockById",
     value: function () {
-      var _updateStockById = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5(id, newStock) {
-        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+      var _updateStockById = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee7(id, newStock) {
+        return _regeneratorRuntime().wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context5.next = 2;
+                _context7.next = 2;
                 return this.knex.from("productos").where("id", id).update({
                   stock: newStock
                 });
               case 2:
               case "end":
-                return _context5.stop();
+                return _context7.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee7, this);
       }));
-      function updateStockById(_x5, _x6) {
+      function updateStockById(_x7, _x8) {
         return _updateStockById.apply(this, arguments);
       }
       return updateStockById;
@@ -157,19 +194,19 @@ var ClientSql = /*#__PURE__*/function () {
   }, {
     key: "close",
     value: function () {
-      var _close = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
-        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+      var _close = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee8() {
+        return _regeneratorRuntime().wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                _context6.next = 2;
+                _context8.next = 2;
                 return this.knex.destroy();
               case 2:
               case "end":
-                return _context6.stop();
+                return _context8.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee8, this);
       }));
       function close() {
         return _close.apply(this, arguments);

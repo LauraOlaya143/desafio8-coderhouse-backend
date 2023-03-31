@@ -1,52 +1,141 @@
 {
 	"entities": {
 		"users": {
-			"laura@gmail.com": {
-				"nombre": "Laura",
-				"apellido": "Olaya",
-				"edad": 17,
-				"alias": "Laura14",
-				"avatar": "https://i.pinimg.com/originals/2a/e4/18/2ae41863937aae47ea8c2f208b7fde49.jpg",
-				"email": "laura@gmail.com"
+			"laura14@gmail.com": {
+				"username": "lau14",
+				"email": "laura14@gmail.com",
+				"direccion": "mila4",
+				"foto": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2642ea-5bf4-4c5f-8710-f464bc4c06d3/dex6jku-af7fc050-698b-4a42-a685-2113397a3ac2.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjMjY0MmVhLTViZjQtNGM1Zi04NzEwLWY0NjRiYzRjMDZkM1wvZGV4NmprdS1hZjdmYzA1MC02OThiLTRhNDItYTY4NS0yMTEzMzk3YTNhYzIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.QtEgEZAy4d6M7YpHyZZ4K_qqFIyzpgTAZdipbNFjwac"
 			},
-			"PP@gmail.com": {
-				"nombre": "Pedro",
-				"apellido": "Alfonzo",
-				"edad": 18,
-				"alias": "ElPP",
-				"avatar": "https://64.media.tumblr.com/1a4e562eff1696c8e51da851435ec3e3/d0eabee945bac462-82/s540x810/976160f2bd715c67b48cb99b0eaa32d86fdf5bc0.pnj",
-				"email": "PP@gmail.com"
+			"pepe2@gmail.com": {
+				"username": "pepe2",
+				"email": "pepe2@gmail.com",
+				"direccion": "mila4",
+				"foto": "https://pbs.twimg.com/media/Flv5LprWYAAMhow.jpg"
 			}
 		},
 		"mensajes": {
-			"638f61f61de6f94dd45e02a6": {
-				"_id": "638f61f61de6f94dd45e02a6",
-				"author": "laura@gmail.com",
-				"text": "hola que tal?"
+			"642246f397913cf5294819af": {
+				"id": "642246f397913cf5294819af",
+				"author": "laura14@gmail.com",
+				"text": "hola, esta es una prueba",
+				"time": "27-03-2023 20:03:64"
 			},
-			"638f61f61de6f94dd45e02a7": {
-				"_id": "638f61f61de6f94dd45e02a7",
-				"author": "PP@gmail.com",
-				"text": "hola que tal?"
+			"642248161912dcdd700fa0c3": {
+				"id": "642248161912dcdd700fa0c3",
+				"author": "laura14@gmail.com",
+				"text": "hola que tal?",
+				"time": "27-03-2023 20:03:54"
 			},
-			"638f72830fef1e7d26406e62": {
-				"_id": "638f72830fef1e7d26406e62",
-				"author": "laura@gmail.com",
-				"text": "Hola esta es mi segunda prueba",
-				"__v": 0
+			"642248cff3fe26b093f0100f": {
+				"id": "642248cff3fe26b093f0100f",
+				"author": "laura14@gmail.com",
+				"text": "holis",
+				"time": "27-03-2023 20:03:22"
 			},
-			"638f728b7662460a0579d157": {
-				"_id": "638f728b7662460a0579d157",
-				"author": "laura@gmail.com",
-				"text": "necesito ver los mensajes",
-				"__v": 0
+			"642304801c7cb3463c0883a2": {
+				"id": "642304801c7cb3463c0883a2",
+				"author": "laura14@gmail.com",
+				"text": "hola que tal?",
+				"time": "28-03-2023 10:03:24"
+			},
+			"6423558fbc2e7e04514b88d3": {
+				"id": "6423558fbc2e7e04514b88d3",
+				"author": "pepe2@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 16:03:09"
+			},
+			"6423559d0b689ae7620b20f9": {
+				"id": "6423559d0b689ae7620b20f9",
+				"author": "laura14@gmail.com",
+				"text": "Hola pepe!",
+				"time": "28-03-2023 16:03:84"
+			},
+			"642370108e5e694884ad2c53": {
+				"id": "642370108e5e694884ad2c53",
+				"author": "laura14@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 17:03:67"
+			},
+			"642370ae63c948155da60ca9": {
+				"id": "642370ae63c948155da60ca9",
+				"author": "laura14@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 17:03:30"
+			},
+			"642370fe7e8ae0babb81010a": {
+				"id": "642370fe7e8ae0babb81010a",
+				"author": "laura14@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 17:03:89"
+			},
+			"6423721d8281401938a970ee": {
+				"id": "6423721d8281401938a970ee",
+				"author": "laura14@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 18:03:92"
+			},
+			"64237be60dd5a508277f1222": {
+				"id": "64237be60dd5a508277f1222",
+				"author": "laura14@gmail.com",
+				"text": "hola!",
+				"time": "28-03-2023 18:03:91"
+			},
+			"6424c9b7ba03b5484a7960ff": {
+				"id": "6424c9b7ba03b5484a7960ff",
+				"author": "laura14@gmail.com",
+				"text": "Hola! prueba para mongo",
+				"time": "29-03-2023 18:03:33"
+			},
+			"6424cae2ca38377fb920c262": {
+				"id": "6424cae2ca38377fb920c262",
+				"author": "laura14@gmail.com",
+				"text": "Hola desde graphql",
+				"time": "29-03-2023 18:03:90"
+			},
+			"6424ce238e35a280e5fe966d": {
+				"id": "6424ce238e35a280e5fe966d",
+				"author": "laura14@gmail.com",
+				"text": "Hola! prueba para mongo",
+				"time": "29-03-2023 18:03:85"
+			},
+			"6425f1440f94a703239d5755": {
+				"id": "6425f1440f94a703239d5755",
+				"author": "laura14@gmail.com",
+				"text": "Hola! prueba para mongo",
+				"time": "30-03-2023 15:03:86"
+			},
+			"6425f2eabd7a79f2d44e7d1f": {
+				"id": "6425f2eabd7a79f2d44e7d1f",
+				"author": "pepe2@gmail.com",
+				"text": "Hola desde swagger",
+				"time": "30-03-2023 15:03:22"
+			},
+			"642625fccad7786b961c2907": {
+				"id": "642625fccad7786b961c2907",
+				"author": "pepe2@gmail.com",
+				"text": "Hola desde swagger 2",
+				"time": "30-03-2023 19:03:34"
 			}
 		}
 	},
 	"result": [
-		"638f61f61de6f94dd45e02a6",
-		"638f61f61de6f94dd45e02a7",
-		"638f72830fef1e7d26406e62",
-		"638f728b7662460a0579d157"
+		"642246f397913cf5294819af",
+		"642248161912dcdd700fa0c3",
+		"642248cff3fe26b093f0100f",
+		"642304801c7cb3463c0883a2",
+		"6423558fbc2e7e04514b88d3",
+		"6423559d0b689ae7620b20f9",
+		"642370108e5e694884ad2c53",
+		"642370ae63c948155da60ca9",
+		"642370fe7e8ae0babb81010a",
+		"6423721d8281401938a970ee",
+		"64237be60dd5a508277f1222",
+		"6424c9b7ba03b5484a7960ff",
+		"6424cae2ca38377fb920c262",
+		"6424ce238e35a280e5fe966d",
+		"6425f1440f94a703239d5755",
+		"6425f2eabd7a79f2d44e7d1f",
+		"642625fccad7786b961c2907"
 	]
 }
