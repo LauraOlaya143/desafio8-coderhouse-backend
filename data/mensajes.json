@@ -185,5 +185,49 @@
 		},
 		"text": "Hola desde swagger 2",
 		"time": "30-03-2023 19:03:34"
+	},
+	{
+		"id": "6428f806e35f614a0dcc6df8",
+		"author": {
+			"username": "pepe2",
+			"email": "pepe2@gmail.com",
+			"direccion": null,
+			"foto": null
+		},
+		"text": "hola!",
+		"time": "01-04-2023 22:04:08"
+	},
+	{
+		"id": "6428f8121a3310195263aef4",
+		"author": {
+			"username": "lau14",
+			"email": "laura14@gmail.com",
+			"direccion": "mila4",
+			"foto": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2642ea-5bf4-4c5f-8710-f464bc4c06d3/dex6jku-af7fc050-698b-4a42-a685-2113397a3ac2.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjMjY0MmVhLTViZjQtNGM1Zi04NzEwLWY0NjRiYzRjMDZkM1wvZGV4NmprdS1hZjdmYzA1MC02OThiLTRhNDItYTY4NS0yMTEzMzk3YTNhYzIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.QtEgEZAy4d6M7YpHyZZ4K_qqFIyzpgTAZdipbNFjwac"
+		},
+		"text": "gola pepe!",
+		"time": "01-04-2023 22:04:35"
+	},
+	{
+		"id": "6428f8288091359cae1aa094",
+		"author": {
+			"username": "pepe2",
+			"email": "pepe2@gmail.com",
+			"direccion": null,
+			"foto": null
+		},
+		"text": "bien y tu?",
+		"time": "01-04-2023 22:04:64"
+	},
+	{
+		"id": "6428f833d774892ece502c08",
+		"author": {
+			"username": "lau14",
+			"email": "laura14@gmail.com",
+			"direccion": "mila4",
+			"foto": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bc2642ea-5bf4-4c5f-8710-f464bc4c06d3/dex6jku-af7fc050-698b-4a42-a685-2113397a3ac2.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JjMjY0MmVhLTViZjQtNGM1Zi04NzEwLWY0NjRiYzRjMDZkM1wvZGV4NmprdS1hZjdmYzA1MC02OThiLTRhNDItYTY4NS0yMTEzMzk3YTNhYzIuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.QtEgEZAy4d6M7YpHyZZ4K_qqFIyzpgTAZdipbNFjwac"
+		},
+		"text": "aa",
+		"time": "01-04-2023 22:04:90"
 	}
 ]

@@ -14,7 +14,7 @@ export const productosRandoms = async() => {
             id: faker.database.mongodbObjectId(),
             title: faker.commerce.product(),
             price: faker.commerce.price(100, 200, 0, '$'),
-            thumbnail: faker.image.animals(1234, 2345, true),
+            thumbnail: faker.internet.avatar(),
             timestamp: time,
             descripcion: faker.commerce.productDescription(),
             codigo: newCodigo,
